@@ -1,0 +1,19 @@
+<div style="display:flex;flex-wrap:wrap">
+  <div style="width:30%;margin-right:5px;" *ngFor="let room of rooms">
+    <mat-card>
+      <div>
+        Name: {{room.name}}
+      </div>
+      <div>
+        Places: {{room.places}}
+      </div>
+      <div>
+        Type: {{room.type.name}}
+      </div>
+      <div style="display:flex">
+        <div style="flex:1 1 auto"></div>
+        <button (click)="book(room)">Book</button>
+      </div>
+    </mat-card>
+  </div>
+</div>
