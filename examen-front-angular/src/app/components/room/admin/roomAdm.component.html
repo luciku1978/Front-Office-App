@@ -1,0 +1,11 @@
+<div>
+<button (click)="upsert()">Add Room</button>
+    <div *ngFor="let room of rooms" >
+        <div>{{room.description}}</div>
+        <div>{{room.roomNo}}</div>
+        <div>{{room.price}}</div>
+        <div>{{room.type.name}}</div>
+        <div>{{room.available? 'Available':'Not avaibale'}}</div>
+        <div><button (click)="upsert(room)">Edit</button></div>
+    </div>
+</div>

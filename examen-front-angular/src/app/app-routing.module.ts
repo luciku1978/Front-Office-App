@@ -8,6 +8,8 @@ import { AuthGuard } from './guards/auth.guard';
 import { UsersGuard } from './guards/users.guard';
 import { RoomComponent } from './components/room/room.component';
 import { RoomTypeComponent } from './components/room/room-type.component';
+import { UserPermAdmComponent } from './components/userPermAdm/userPermAdm.component';
+import { RoomAdmComponent } from './components/room/admin/roomAdm.component';
 
 
 
@@ -23,6 +25,14 @@ const routes: Routes = [
         component: UsersComponent,
         canActivate: [UsersGuard],
 
+      },
+      {
+        path: 'perm-adm',
+        component: UserPermAdmComponent
+      },
+      {
+        path: 'room-adm',
+        component: RoomAdmComponent
       },
       {
         path: 'room-type',

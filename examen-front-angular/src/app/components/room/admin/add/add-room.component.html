@@ -1,0 +1,18 @@
+<div>
+    <input type="text" [(ngModel)]="room.description" placeholder="Description"/>
+</div>
+<div>
+    <input type="number" [(ngModel)]="room.price" placeholder="Price" />
+</div>
+<div>
+    <input type="text" placeholder="Room No" [(ngModel)]="room.roomNo" />
+</div>
+<div>
+    <input type="checkbox" [(ngModel)]="room.available" /> Available
+</div>
+<div>
+    <room-type-select [(selected)]="room.type" (selectedChange)="onRoomTypeChange($event)"></room-type-select>
+</div>
+<div>
+    <button (click)="save()">Save</button>
+</div>

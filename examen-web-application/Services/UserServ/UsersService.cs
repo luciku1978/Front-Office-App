@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace examen_web_application.Services
 {
-    public interface IUsersService
+    public interface IUserService
     {
         UserGetModel Authenticate(string username, string password);
         UserGetModel Register(RegisterPostModel registerInfo);
@@ -31,7 +31,7 @@ namespace examen_web_application.Services
 
     }
 
-    public class UsersService : IUsersService
+    public class UsersService : IUserService
     {
         private UsersDbContext context;
         private readonly AppSettings appSettings;

@@ -17,9 +17,9 @@ namespace examen_web_application.Controllers
         [ApiController]
         public class UsersController : ControllerBase
         {
-            private IUsersService _userService;
+            private IUserService _userService;
 
-            public UsersController(IUsersService userService)
+            public UsersController(IUserService userService)
             {
                 _userService = userService;
             }

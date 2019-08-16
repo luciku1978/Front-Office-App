@@ -19,6 +19,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using NetCore.AutoRegisterDi;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace examen_web_application
@@ -97,8 +98,12 @@ namespace examen_web_application
 
             //services.AddScoped<IExpenseService, ExpenseService>();
             //services.AddScoped<ICommentService, CommentService>();
-            services.AddScoped<IUsersService, UsersService>();
-            services.AddScoped<IRoomService, RoomsService>();
+            services.RegisterAssemblyPublicNonGenericClasses(Assembly.GetExecutingAssembly())
+    .Where(x => x.Name.EndsWith("Service"))
+    .AsPublicImplementedInterfaces();
+            services.RegisterAssemblyPublicNonGenericClasses(Assembly.GetExecutingAssembly())
+.Where(x => x.Name.EndsWith("Helper"))
+.AsPublicImplementedInterfaces();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

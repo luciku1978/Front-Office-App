@@ -8,7 +8,8 @@ namespace examen_web_application.Services.RoomsService
 {
     public interface IRoomService
     {
-        IEnumerable<RoomCategoryDTO> GetCategories();
+        IEnumerable<RoomTypeDTO> GetCategories();
         byte[] GetImageForCategory(string image);
+        IEnumerable<RoomDTO> GetRooms(int type);
     }
 }

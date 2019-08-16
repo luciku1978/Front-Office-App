@@ -1,4 +1,5 @@
-﻿using examen_web_application.Services.RoomsService.dto;
+﻿using examen_web_application.Models;
+using examen_web_application.Services.RoomsService.dto;
 using Microsoft.AspNetCore.Hosting;
 using System;
 using System.Collections.Generic;
@@ -11,34 +12,20 @@ namespace examen_web_application.Services.RoomsService
     public class RoomsService: IRoomService
     {
         IHostingEnvironment HostingEnvironment;
-        public RoomsService(IHostingEnvironment hostingEnvironment)
+        UsersDbContext DbContext;
+        public RoomsService(IHostingEnvironment hostingEnvironment, UsersDbContext dbContext)
         {
             HostingEnvironment = hostingEnvironment;
+            DbContext = dbContext;
         }
 
-        public IEnumerable<RoomCategoryDTO> GetCategories()
+        public IEnumerable<RoomTypeDTO> GetCategories()
         {
-            return new List<RoomCategoryDTO>()
+            return DbContext.RoomType.Select(x => new RoomTypeDTO()
             {
-                new RoomCategoryDTO()
-                {
-                    Type = 1,
-                    ImgSrc = "single.png",
-                    Name = "Single"
-                },
-                   new RoomCategoryDTO()
-                {
-                    Type = 2,
-                    ImgSrc = "double.png",
-                    Name = "Double"
-                },
-                      new RoomCategoryDTO()
-                {
-                    Type = 1,
-                    ImgSrc = "suite.png",
-                    Name = "Suite"
-                }
-            };
+                ID = x.ID,
+                Name = x.Name
+            });
         }
 
         public byte[] GetImageForCategory(string image)
@@ -48,9 +35,23 @@ namespace examen_web_application.Services.RoomsService
             return File.ReadAllBytes(path);
         }
 
-        public IEnumerable<RoomDTO> GetRooms(int categoryID)
+        public IEnumerable<RoomDTO> GetRooms(int type)
         {
-            return null;
+            return (from x in DbContext.Room
+                    join rt in DbContext.RoomType on x.RoomTypeID equals rt.ID
+                    where x.RoomTypeID == type
+                    select new RoomDTO()
+                    {
+                        ID = x.Id,
+                        Description = x.Description,
+                        RoomNo = x.RoomNo,
+                        Price = x.Price,
+                        Type = new RoomTypeDTO()
+                        {
+                            ID = rt.ID,
+                            Name = rt.Name
+                        }
+                    }).ToList();
         }
 
         public IEnumerable<RoomDTO> GetRooms()

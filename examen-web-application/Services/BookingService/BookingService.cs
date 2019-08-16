@@ -24,7 +24,7 @@ namespace examen_web_application.Services.BookingService
 
         }
 
-        public void UpsertBookingRecepton()
+        public void UpsertBookingReception()
         {
             //contina pt cine
         }

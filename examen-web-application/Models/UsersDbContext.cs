@@ -21,6 +21,11 @@ namespace examen_web_application.Models
             });
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<Room> Room { get; set; }
+        public DbSet<RoomType> RoomType{ get; set; }
+        public DbSet<Booking> Booking { get; set; }
+        public DbSet<Permission> Permission { get; set; }
+        public DbSet<UserPermission> UserPermission { get; set; }
     }
 }
 

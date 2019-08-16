@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RoomService } from 'src/app/services/room/room-service';
-import { RoomTypeDTO } from 'src/app/services/room/dto/roomDto';
 import { Router } from '@angular/router';
+import { RoomTypeDTO } from 'src/app/services/room/dto/roomTypeDTO';
 
 @Component({
   selector: 'rt',
@@ -25,10 +25,10 @@ export class RoomTypeComponent implements OnInit {
   }
 
   getImage(rt: RoomTypeDTO) {
-    return this.roomService.getImgPath(rt.imgSrc);
+    // return this.roomService.getImgPath(rt.imgSrc);
   }
 
   go(type: RoomTypeDTO) {
-    this.router.navigate(['./room', type.type]);
+    this.router.navigate(['./room', type.id]);
   }
 }

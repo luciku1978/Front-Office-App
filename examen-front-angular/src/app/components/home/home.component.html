@@ -13,10 +13,18 @@
             <mat-icon>people</mat-icon>
             <span>Users</span>
           </button>
+          <button autotest-id="userAdm" mat-menu-item (click)="goToUserPerm()">
+            <mat-icon>people</mat-icon>
+            <span>Permissions</span>
+          </button>
           <button autotest-id="room" mat-menu-item (click)="gotoRoom()">
             <mat-icon>Rooms</mat-icon>
             <span>Rooms</span>
           </button>
+          <button autotest-id="room" mat-menu-item (click)="gotoRoomAdm()">
+              <mat-icon>Rooms</mat-icon>
+              <span>Rooms Adm</span>
+            </button>
           <button autotest-id="logoutBtn" mat-menu-item (click)="logout()">
             <mat-icon>keyboard_tab</mat-icon>
             <span>Log out</span>

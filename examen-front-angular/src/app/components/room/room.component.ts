@@ -1,9 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { RoomService } from 'src/app/services/room/room-service';
-import { RoomDto, RoomTypeEnum } from 'src/app/services/room/dto/roomDto';
+import { RoomDto } from 'src/app/services/room/dto/roomDto';
 import { MatDialog } from '@angular/material';
 import { BookComponent } from './book/book.component';
 import { ActivatedRoute } from '@angular/router';
+import { RoomTypeEnum } from 'src/app/services/room/dto/roomTypeDTO';
 
 @Component({
   selector: 'room-cmp',
@@ -27,7 +28,9 @@ export class RoomComponent implements OnInit {
   }
 
   getRooms() {
-    this.rooms = this.roomService.getRooms().filter(x => x.type.type == this.selectedType);
+    this.roomService.getRooms(this.selectedType).subscribe(rsp => {
+      this.rooms = rsp;
+    });
   }
 
   book(room) {

@@ -38,7 +38,13 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/room-type']);
   }
 
+  goToUserPerm() {
+    this.router.navigate(['/perm-adm']);
+  }
 
+  gotoRoomAdm() {
+    this.router.navigate(['/room-adm']);
+  }
 
   logout() {
     

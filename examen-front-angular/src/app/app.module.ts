@@ -16,6 +16,10 @@ import { RoomComponent } from './components/room/room.component';
 import { BookComponent } from './components/room/book/book.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { RoomTypeComponent } from './components/room/room-type.component';
+import { UserPermAdmComponent } from './components/userPermAdm/userPermAdm.component';
+import { RoomAdmComponent } from './components/room/admin/roomAdm.component';
+import { AddRoomComponent } from './components/room/admin/add/add-room.component';
+import { RoomTypeSelect } from './lib/select/room-type/room-type';
 
 
 @NgModule({
@@ -27,10 +31,15 @@ import { RoomTypeComponent } from './components/room/room-type.component';
     RegisterComponent,
     RoomComponent,
     RoomTypeComponent,
+    UserPermAdmComponent,
+    RoomAdmComponent,
+    AddRoomComponent,
+    RoomTypeSelect,
     BookComponent 
   ],
   entryComponents: [
-    BookComponent 
+    BookComponent,
+    AddRoomComponent
   ],
   imports: [
     MatDatepickerModule,
