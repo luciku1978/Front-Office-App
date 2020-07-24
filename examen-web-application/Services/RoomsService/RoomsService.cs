@@ -24,14 +24,15 @@ namespace examen_web_application.Services.RoomsService
             return DbContext.RoomType.Select(x => new RoomTypeDTO()
             {
                 ID = x.ID,
-                Name = x.Name
+                Name = x.Name,
+                
             });
         }
 
         public byte[] GetImageForCategory(string image)
         {
             var path = HostingEnvironment.ContentRootPath;
-            path = Path.Combine(path, "Resources", "images", image);
+            path = Path.Combine(path, "Resources", "Images", image);
             return File.ReadAllBytes(path);
         }
 
@@ -60,5 +61,13 @@ namespace examen_web_application.Services.RoomsService
             return null;
         }
 
+        public IEnumerable<RoomDTO> GetSelectableRooms(int loggedUserID)
+        {
+            return DbContext.Room.Select(x => new RoomDTO()
+            {
+                ID = x.Id,
+                RoomNo = x.RoomNo
+            }).ToList();
+        }
     }
 }

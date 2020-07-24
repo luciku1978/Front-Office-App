@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { RoomService } from 'src/app/services/room/room-service';
 import { RoomDto } from 'src/app/services/room/dto/roomDto';
 import { MatDialog } from '@angular/material';
-import { BookComponent } from './book/book.component';
+import { BookComponent } from '../booking/book/book.component';
 import { ActivatedRoute } from '@angular/router';
 import { RoomTypeEnum } from 'src/app/services/room/dto/roomTypeDTO';
 
@@ -16,7 +16,9 @@ export class RoomComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private route: ActivatedRoute,
-    private roomService: RoomService) {
+    private roomService: RoomService)
+    
+  {
     this.route.params.subscribe(params => {
       this.selectedType = params['type'] as RoomTypeEnum;
       this.getRooms();

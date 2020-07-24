@@ -34,7 +34,7 @@ export class RegisterComponent implements OnInit {
         username: ['', [Validators.required]],
         email: ['', [Validators.required, Validators.email]],
         passwords: this.formBuilder.group({
-          password: ['', [Validators.required]],
+          password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(55)]],
           confirmedPassword: ['', [Validators.required]],
         }, {validator: this.passwordConfirming}),
     });
@@ -80,7 +80,17 @@ export class RegisterComponent implements OnInit {
 
           this.errors = [error];
           this.loading = false;
+          this.toastr.error('Account can not created - username already exists!', '', {
+            positionClass: 'toast-bottom-right',
+          });
         });
+        var start = new Date().getTime();
+        for (var i = 0; i < 1e7; i++) {
+          if ((new Date().getTime() - start) > 2000){
+            break;
+          }
+        }
+        this.router.navigate(['/login']);
   }
 
 }

@@ -11,5 +11,6 @@ namespace examen_web_application.Services.RoomsService
         IEnumerable<RoomTypeDTO> GetCategories();
         byte[] GetImageForCategory(string image);
         IEnumerable<RoomDTO> GetRooms(int type);
+        IEnumerable<RoomDTO> GetSelectableRooms(int loggedUserID);
     }
 }

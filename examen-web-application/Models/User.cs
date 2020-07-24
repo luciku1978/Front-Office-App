@@ -9,10 +9,10 @@ namespace examen_web_application.Models
 {
     public enum UserRole
     {
-        [Description("Regular")]
-        Regular,
-        [Description("Moderator")]
-        Moderator,
+        [Description("Client")]
+        Client,
+        [Description("FOStaff")]
+        FOStaff,
         [Description("Admin")]
         Admin,
     }

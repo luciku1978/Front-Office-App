@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using examen_web_application.Services;
 using examen_web_application.Services.RoomsService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -12,10 +13,10 @@ namespace examen_web_application.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class RoomsController : ControllerBase
+    public class RoomsController : BaseController
     {
         IRoomService RoomService;
-        public RoomsController(IRoomService roomService)
+        public RoomsController(IRoomService roomService, IUserService userService):base(userService)
         {
             RoomService = roomService;
         }
@@ -40,6 +41,13 @@ namespace examen_web_application.Controllers
         {
             return File(RoomService.GetImageForCategory(image), "image/png");
             //return Ok(RoomService.GetImageForCategory(categoryID, image, Logged);
+        }
+
+        [Route("GetSelectableRooms")]
+        [HttpGet]
+        public IActionResult GetSelectableRooms()
+        {
+            return Ok(RoomService.GetSelectableRooms(LoggedUserID));
         }
     }
 }

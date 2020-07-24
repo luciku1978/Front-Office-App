@@ -25,7 +25,8 @@ export class RoomTypeComponent implements OnInit {
   }
 
   getImage(rt: RoomTypeDTO) {
-    // return this.roomService.getImgPath(rt.imgSrc);
+     //return this.roomService.getImgPath(rt.name + ".png");
+     return "./assets/images/" + rt.name + ".png";
   }
 
   go(type: RoomTypeDTO) {

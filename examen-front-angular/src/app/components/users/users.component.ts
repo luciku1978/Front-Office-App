@@ -13,7 +13,7 @@ export class UsersComponent implements OnInit {
   public users: any = null;
   public changes: any = null;
 
-  public displayedColumns: string[] = ['Username', 'Email','UserRole'];
+  public displayedColumns: string[] = ['Username', 'Email','UserRole', 'Butoane'];
   
 
   constructor(private userService: UserService, private route: Router) {
@@ -29,6 +29,10 @@ export class UsersComponent implements OnInit {
       this.users = u;
       console.log(u);
     });
+  }
+
+  editUser (id) {
+    console.log(id)
   }
 
   

@@ -1,4 +1,6 @@
 ﻿using examen_web_application.Models;
+using examen_web_application.Services.UserServ.DTO;
+using examen_web_application.Services.UserServ.Helpers;
 using examen_web_application.Viewmodels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +21,7 @@ namespace examen_web_application.Services
 {
     public interface IUserService
     {
+        List<UserDTO> GetSelectableUsers(int loggedUserID);
         UserGetModel Authenticate(string username, string password);
         UserGetModel Register(RegisterPostModel registerInfo);
         User GetCurrentUser(HttpContext httpContext);
@@ -35,11 +38,15 @@ namespace examen_web_application.Services
     {
         private UsersDbContext context;
         private readonly AppSettings appSettings;
+        private IUserPermissionHelper UserPermissionHelper;
 
-        public UsersService(UsersDbContext context, IOptions<AppSettings> appSettings)
+        public UsersService(UsersDbContext context, 
+            IOptions<AppSettings> appSettings,
+            IUserPermissionHelper userPermissionHelper)
         {
             this.context = context;
             this.appSettings = appSettings.Value;
+            UserPermissionHelper = userPermissionHelper;
         }
         public UserGetModel Authenticate(string username, string password)
         {
@@ -65,14 +72,15 @@ namespace examen_web_application.Services
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
+            
             var result = new UserGetModel
             {
                 Id = user.Id,
                 Email = user.Email,
                 Username = user.Username,
-                Token = tokenHandler.WriteToken(token)
+                Token = tokenHandler.WriteToken(token),
+                UserRole = user.UserRole.ToString()
             };
-
             return result;
         }
 
@@ -110,7 +118,7 @@ namespace examen_web_application.Services
                 FirstName = registerInfo.FirstName,
                 Password = ComputeSha256Hash(registerInfo.Password),
                 Username = registerInfo.Username,
-                UserRole = UserRole.Regular,
+                UserRole = UserRole.Client,
 
             });
             context.SaveChanges();
@@ -187,8 +195,8 @@ namespace examen_web_application.Services
             {
                 return null;
             }
-            else if ((existing.UserRole.Equals(UserRole.Regular) && addedBy.UserRole.Equals(UserRole.Moderator)) ||
-                (existing.UserRole.Equals(UserRole.Moderator) && addedBy.UserRole.Equals(UserRole.Moderator) && addedBy.CreatedAt.AddMonths(6) <= DateTime.Now))
+            else if ((existing.UserRole.Equals(UserRole.Client) && addedBy.UserRole.Equals(UserRole.FOStaff)) ||
+                (existing.UserRole.Equals(UserRole.FOStaff) && addedBy.UserRole.Equals(UserRole.FOStaff) && addedBy.CreatedAt.AddMonths(6) <= DateTime.Now))
             {
                 context.Users.Update(toUpdate);
                 context.SaveChanges();
@@ -214,6 +222,18 @@ namespace examen_web_application.Services
            .Remove(existing);
             context.SaveChanges();
             return existing;
+        }
+
+        public List<UserDTO> GetSelectableUsers(int loggedUserID)
+        {
+            if (!UserPermissionHelper.GetPermissions(loggedUserID).Contains(UserServ.Helpers.UserPermission.Enums.PermissionTypeEnum.CanAdmBookings))
+                throw new Exception("Access denied");
+            //fill with more;
+            return context.Users.Select(x => new UserDTO()
+            {
+                ID = x.Id,
+                Name = x.FirstName
+            }).ToList();
         }
     }
 } 

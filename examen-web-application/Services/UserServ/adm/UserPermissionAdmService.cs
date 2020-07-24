@@ -5,7 +5,6 @@ using examen_web_application.Services.UserServ.Helpers.UserPermission.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace examen_web_application.Services.UserServ
 {
@@ -70,13 +69,15 @@ namespace examen_web_application.Services.UserServ
         public IEnumerable<UserPermAdmDTO> GetPermissions(int loggedUserID)
         {
             ValidateAccess(loggedUserID);
-            return (from x in DbContext.Users
+            return (from x in DbContext.Users where x.UserRole != UserRole.Client
                         //let perm =
 
                     select new UserPermAdmDTO()
                     {
                         UserID = x.Id,
                         UserName = x.Username,
+                        UserRole = UsersService.GetDescription(x.UserRole),
+
                         Permissions = (from p in DbContext.Permission
                                        let pas = (from _pas in DbContext.UserPermission
                                                   where _pas.PermissionID == p.ID &&

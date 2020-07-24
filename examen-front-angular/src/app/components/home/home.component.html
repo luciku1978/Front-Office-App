@@ -1,7 +1,7 @@
 <div class="grid-container">
   <mat-toolbar color="primary">
     <mat-toolbar-row>
-      <span class="app-title" (click)="home()">Users Management Webapp</span>
+      <span class="app-title" (click)="home()">Hotel Reservations Webapp</span>
       <span class="spacer"></span>
       <div class="user-menu">
         <span class="user-menu-title">Hello, {{authService.currentUserValue.username}}</span>
@@ -12,6 +12,10 @@
           <button autotest-id="userManagement" mat-menu-item (click)="userManagement()">
             <mat-icon>people</mat-icon>
             <span>Users</span>
+          </button>
+          <button autotest-id="userManagement" mat-menu-item (click)="gotoBookingAdm()">
+            <mat-icon>people</mat-icon>
+            <span>Bookings</span>
           </button>
           <button autotest-id="userAdm" mat-menu-item (click)="goToUserPerm()">
             <mat-icon>people</mat-icon>

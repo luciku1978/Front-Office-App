@@ -46,6 +46,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/room-adm']);
   }
 
+  gotoBookingAdm() {
+    this.router.navigate(['/booking-adm']);
+  }
+
   logout() {
     
     this.authService.logout();

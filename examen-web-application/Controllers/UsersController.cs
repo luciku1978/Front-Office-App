@@ -76,8 +76,8 @@ namespace examen_web_application.Controllers
                 return Ok(user);
             }
 
-            [AllowAnonymous]
-            //[Authorize(Roles = "Moderator, Admin")]
+            //[AllowAnonymous]
+            [Authorize(Roles = "FOStaff, Admin")]
             [HttpGet]
             public IActionResult GetAll()
             {
@@ -106,7 +106,7 @@ namespace examen_web_application.Controllers
             [ProducesResponseType(StatusCodes.Status200OK)]
             [ProducesResponseType(StatusCodes.Status404NotFound)]
             // GET: api/Users/5
-            //[Authorize(Roles = "Admin, Moderator, Regular")]
+            //[Authorize(Roles = "Admin, FOStaff, Client")]
             [HttpGet("{id}", Name = "GetUser")]
             public IActionResult Get(int id)
             {
@@ -138,7 +138,7 @@ namespace examen_web_application.Controllers
             /// <param name="userPostModel">The input user to be added</param>
             [ProducesResponseType(StatusCodes.Status200OK)]
             [ProducesResponseType(StatusCodes.Status400BadRequest)]
-            //[Authorize(Roles = "Admin, Moderator")]
+            //[Authorize(Roles = "Admin, FOStaff")]
             [HttpPost]
             public void Post([FromBody] UserPostModel userPostModel)
             {
@@ -166,7 +166,7 @@ namespace examen_web_application.Controllers
             /// <returns>Status 200 daca a fost modificat</returns>
             [ProducesResponseType(StatusCodes.Status200OK)]
             [ProducesResponseType(StatusCodes.Status403Forbidden)]
-            //[Authorize(Roles = "Admin,Moderator")]
+            //[Authorize(Roles = "Admin,FOStaff")]
             [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] UserPostModel userPostModel)
         {
@@ -189,7 +189,7 @@ namespace examen_web_application.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
             [ProducesResponseType(StatusCodes.Status404NotFound)]
             [ProducesResponseType(StatusCodes.Status403Forbidden)]
-            //[Authorize(Roles = "Admin,Moderator")]
+            //[Authorize(Roles = "Admin,FOStaff")]
             [HttpDelete("{id}")]
             public IActionResult Delete(int id)
             {
@@ -206,7 +206,7 @@ namespace examen_web_application.Controllers
                 var currentDate = DateTime.Now;
                 var minDate = currentDate.Subtract(regDate).Days / (365 / 12);
 
-                if (currentLogedUser.UserRole == UserRole.Moderator)
+                if (currentLogedUser.UserRole == UserRole.FOStaff)
                 {
                     User getUser = _userService.GetById(id);
                     if (getUser.UserRole == UserRole.Admin)
@@ -216,17 +216,17 @@ namespace examen_web_application.Controllers
 
                 }
 
-                if (currentLogedUser.UserRole == UserRole.Moderator)
+                if (currentLogedUser.UserRole == UserRole.FOStaff)
                 {
                     User getUser = _userService.GetById(id);
-                    if (getUser.UserRole == UserRole.Moderator && minDate <= 6)
+                    if (getUser.UserRole == UserRole.FOStaff && minDate <= 6)
 
                         return Forbid();
                 }
-                if (currentLogedUser.UserRole == UserRole.Moderator)
+                if (currentLogedUser.UserRole == UserRole.FOStaff)
                 {
                     User getUser = _userService.GetById(id);
-                    if (getUser.UserRole == UserRole.Moderator && minDate >= 6)
+                    if (getUser.UserRole == UserRole.FOStaff && minDate >= 6)
                     {
                         var result1 = _userService.Delete(id);
                         return Ok(result1);
@@ -244,5 +244,13 @@ namespace examen_web_application.Controllers
                 return Ok(result);
             }
 
+        [Route("GetSelectableUsers")]
+        [HttpGet]
+        public IActionResult GetSelectableUsers()
+        {
+            return Ok(_userService.GetSelectableUsers(_userService.GetCurrentUser(HttpContext).Id));
         }
+    }
+
+
     }

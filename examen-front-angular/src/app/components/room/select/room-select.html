@@ -1,0 +1,7 @@
+<select [(ngModel)]="model" (ngModelChange)="change()">
+    <option *ngFor="let item of items">
+        <div>
+            {{item.roomNo}}
+        </div>
+    </option>
+</select>

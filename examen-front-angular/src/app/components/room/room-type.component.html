@@ -2,7 +2,8 @@
 <div style="display:flex;flex-wrap:wrap">
   <div style="width:30%;margin-right:5px;" *ngFor="let rt of roomTypes">
     <mat-card>
-      <img [src]="getImage(rt)" style="width:200px;height:200px"/>
+      <!--<img [src]= "getImage(rt)" style="width:200px;height:200px"/>-->
+      <img [src] = "getImage(rt)" style="width:300px;height:200px"/>
       {{rt.name}}
       <div style="display:flex">
         <div style="flex:1 1 auto"></div>

@@ -4,9 +4,12 @@ import { HttpClient } from '@angular/common/http';
 import { User } from '../models/users';
 import { map } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { UserDTO } from './user/dto/userDTO';
+import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
+  base: string = environment.srv_url + "api/users/";
   private usersSubject: BehaviorSubject<User[]>;
   public users: User[];
 
@@ -22,6 +25,10 @@ export class UserService {
         this.usersSubject.next(this.users);
         return response;
       }));
+  }
+
+  getSelectableUsers() {
+    return this.http.get<UserDTO[]>(this.base + 'getSelectableUsers').toPromise();
   }
 
 }

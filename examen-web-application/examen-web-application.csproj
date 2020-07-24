@@ -19,18 +19,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\Images\" />
-    <Folder Include="Services\BookingService\dto\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Resources\Images\double.png">
+    <None Update="Resources\Images\Double.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\Images\single.png">
+    <None Update="Resources\Images\Single.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\Images\suite.png">
+    <None Update="Resources\Images\Suite.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

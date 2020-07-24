@@ -2,6 +2,7 @@ export class RoomTypeDTO
 {
     id:number;
     name:string;
+    
 }
 
 export enum RoomTypeEnum {

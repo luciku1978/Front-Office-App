@@ -1,8 +1,7 @@
-<div>
-  Create booking for {{room.name}}
-  -----
-  Places: {{room.places}}
-</div>
+<div *ngIf="room">
+  <div>Create booking for: {{room.roomNo}}</div>
+  <!--<div>Create booking for: "getRoomName()"</div>-->
+  <div>Places: {{room.places}}</div>
 <div>
   <div style="display:flex;flex-wrap:wrap">
     <mat-form-field>
@@ -15,9 +14,15 @@
       <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
       <mat-datepicker #endDate></mat-datepicker>
     </mat-form-field>
+
+  </div>
+  <div>
+      <room-select *ngIf="asReception"></room-select>
+    <users-select *ngIf="asReception"></users-select>
   </div>
   <div style="display:flex">
     <div style="flex: 1 1 auto"></div>
     <button (click)="save()">Save</button>
   </div>
+</div>
 </div>

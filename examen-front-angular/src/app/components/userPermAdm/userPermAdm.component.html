@@ -2,6 +2,7 @@
 
     <div *ngFor="let user of userPerms" >
         <h3>  {{user.userName}}</h3>
+        <div> {{user.userRole}}</div>
         <div *ngFor="let perm of user.permissions">
             <input type="checkbox" [(ngModel)]="perm.isAssigned" /> {{perm.name}}
         </div>

@@ -21,4 +21,8 @@ export class RoomService {
   getImgPath(image) {
     return this.base + 'GetImageForCategory?image=' + image;
   }
+
+  getSelectableRooms() {
+    return this.http.get<RoomDto[]>( this.base + 'getSelectableRooms').toPromise();
+  }
 }

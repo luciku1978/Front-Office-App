@@ -8,6 +8,7 @@ namespace examen_web_application.Services.UserServ.Helpers.UserPermission.Enums
     public enum PermissionTypeEnum
     {
         CanUpsertPermissions = 1,
-        CanUpsertRoom = 2
+        CanUpsertRoom = 2,
+        CanAdmBookings = 3
     }
 }

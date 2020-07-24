@@ -1,15 +1,19 @@
-﻿using System;
+﻿using examen_web_application.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace examen_web_application.Services.UserServ.adm.dto
 {
+    
+
     public class UserPermAdmDTO
     {
         public int UserID { get; set; }
         public IEnumerable<PermAdmDTO> Permissions { get; set; } = new List<PermAdmDTO>();
         public string UserName { get; internal set; }
+        public string UserRole { get; set; }
     }
 
     public class PermAdmDTO

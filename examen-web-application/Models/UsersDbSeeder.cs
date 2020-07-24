@@ -36,7 +36,7 @@ namespace examen_web_application.Models
                    Username = "geopop",
                    Email = "pg@aol.com",
                    Password = ComputeSha256Hash("12345678"),
-                   UserRole = UserRole.Regular,
+                   UserRole = UserRole.Client,
                },
                new User
                {
@@ -45,7 +45,7 @@ namespace examen_web_application.Models
                    Username = "crisdan",
                    Email = "cris@aol.com",
                    Password = ComputeSha256Hash("1234567"),
-                   UserRole = UserRole.Moderator,
+                   UserRole = UserRole.FOStaff,
                }
             );
             context.SaveChanges();

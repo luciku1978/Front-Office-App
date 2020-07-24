@@ -19,11 +19,11 @@ namespace examen_web_application.Viewmodels
 
         public static User ToUser(UserPostModel user)
         {
-            UserRole role = Models.UserRole.Regular;
+            UserRole role = Models.UserRole.Client;
 
-            if (user.UserRole == "Moderator")
+            if (user.UserRole == "FOStaff")
             {
-                role = Models.UserRole.Moderator;
+                role = Models.UserRole.FOStaff;
             }
             else if (user.UserRole == "Admin")
             {
