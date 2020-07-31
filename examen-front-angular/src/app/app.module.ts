@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { SharedModule } from './modules/shared.module';
 import { HttpClientModule } from '@angular/common/http';
-import { UsersComponent } from './components/users/users.component';
+import { UsersComponent, DialogOverviewExampleDialog } from './components/users/users.component';
 import { MatPaginatorModule } from '@angular/material';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -25,6 +25,7 @@ import { UsersSelect } from './components/users/select/users-select';
 import { RoomSelect } from './components/room/select/room-select';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,11 +42,13 @@ import { RoomSelect } from './components/room/select/room-select';
     RoomTypeSelect,
     UsersSelect,
     RoomSelect,
-    BookComponent 
+    BookComponent,
+    DialogOverviewExampleDialog
   ],
   entryComponents: [
     BookComponent,
-    AddRoomComponent
+    AddRoomComponent,
+    DialogOverviewExampleDialog
   ],
   imports: [
     MatDatepickerModule,

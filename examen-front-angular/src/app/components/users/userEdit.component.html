@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>Update user</h1>
+<div mat-dialog-content>
+    <mat-form-field>
+        <mat-label>Username:</mat-label>
+        <input matInput [(ngModel)]="data.username">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>User Role:</mat-label>
+        <mat-select [(ngModel)]="data.userRole">
+            <mat-option value="Admin">Admin</mat-option>
+            <mat-option value="Client">Client</mat-option>
+            <mat-option value="FOStaff">FOStaff</mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+</div>
