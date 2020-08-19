@@ -3,5 +3,9 @@ export class BookDTO {
     startDate:any;
     endDate:any;
     userID:number;
-    roomID:number; 
+    roomID:number;
+    bookingStatus:string; 
+    persNumber: number;
+    room: Object;
+    user: Object;
 }

@@ -1,23 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using examen_web_application.Models;
 using examen_web_application.Services;
-using examen_web_application.Services.RoomsService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NetCore.AutoRegisterDi;
 using Swashbuckle.AspNetCore.Swagger;
@@ -33,7 +27,9 @@ namespace examen_web_application
 
         public IConfiguration Configuration { get; }
 
+
         // This method gets called by the runtime. Use this method to add services to the container.
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -44,7 +40,7 @@ namespace examen_web_application
                 c.SwaggerDoc("v1", new Info
                 {
                     Version = "v1.0.0",
-                    Title = "Exam API",
+                    Title = "Front office WebAPI",
                     Description = "Swagger for WebApi",
                     TermsOfService = "None",
                     Contact = new Contact
@@ -78,12 +74,12 @@ namespace examen_web_application
 
             var appSettings = appSettingsSection.Get<AppSettings>();
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(x =>
+            }).AddJwtBearer(x =>
             {
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = true;
@@ -96,14 +92,12 @@ namespace examen_web_application
                 };
             });
 
-            //services.AddScoped<IExpenseService, ExpenseService>();
-            //services.AddScoped<ICommentService, CommentService>();
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.GetExecutingAssembly())
-    .Where(x => x.Name.EndsWith("Service"))
-    .AsPublicImplementedInterfaces();
+                .Where(x => x.Name.EndsWith("Service"))
+                .AsPublicImplementedInterfaces();
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.GetExecutingAssembly())
-.Where(x => x.Name.EndsWith("Helper"))
-.AsPublicImplementedInterfaces();
+                .Where(x => x.Name.EndsWith("Helper"))
+                .AsPublicImplementedInterfaces();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,19 +1,18 @@
 ﻿using examen_web_application.Models;
 using examen_web_application.Services.BookingService.dto;
 using examen_web_application.Services.UserServ.Helpers;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using static examen_web_application.Services.BookingService.dto.BookingDTO;
 
 namespace examen_web_application.Services.BookingService
 {
     public interface IBookingService
     {
         List<BookingDTO> GetBookingsAdm(int loggedUserID);
-        void UpsertBooking(BookingDTO dto, int loggedUserID);
-        void UpsertBookingReception(BookingDTO bookingDTO, int loggedUserID);
+        void UpsertBooking(Booking dto, int loggedUserID);
+        void UpsertBookingReception(Booking bookingDTO, int loggedUserID);
     }
     public class BookingService: IBookingService
     {
@@ -30,7 +29,7 @@ namespace examen_web_application.Services.BookingService
         {
             return DbContext.Booking.Where(x=> x.UserID == loggedUserID).Select(x=> new BookingDTO()
             {
-                ID = x.Id,
+                Id = x.Id,
 
             });
         }
@@ -40,17 +39,42 @@ namespace examen_web_application.Services.BookingService
         {
             if (!UserPermissionHelper.GetPermissions(loggedUserID).Contains(UserServ.Helpers.UserPermission.Enums.PermissionTypeEnum.CanAdmBookings))
                 throw new Exception("Access denied");
-            return DbContext.Booking.Select(x=> new BookingDTO()
+            return DbContext.Booking.Select(x => new BookingDTO()
             {
-                ID = x.Id,
-            }).ToList();
-        }
 
-        public void UpsertBooking(BookingDTO dto, int loggedUserID)
+                Id = x.Id,
+                User = (from u in DbContext.Users
+                        where u.Id == x.UserID
+                        select new BookingUserDTO()
+                        {
+                            Id = u.Id,
+                            FirstName = u.FirstName,
+                            LastName= u.LastName
+                        }
+                        ).FirstOrDefault(),
+            Room = (from r in DbContext.Room
+                    where r.Id == x.RoomID
+                    select new BookingRoomDTO()
+                    {
+                        Id = r.Id,
+                        RoomNo = r.RoomNo
+                    }
+                        ).FirstOrDefault(),
+            UserID = x.UserID,
+            RoomID = x.RoomID,
+                StartDate = x.StartDate,
+            EndDate = x.EndDate,
+           BookingStatus = x.BookingStatus.ToString(),
+           PersNumber = x.PersNumber,
+        }).ToList();
+        }
+       
+
+        public void UpsertBooking(Booking dto, int loggedUserID)
         {
-            if(dto.ID > 0)
+            if(dto.Id > 0)
             {
-                if (!DbContext.Booking.Any(x => x.Id == dto.ID && x.UserID == loggedUserID))
+                if (!DbContext.Booking.Any(x => x.Id == dto.Id && x.UserID == loggedUserID))
                     throw new Exception("Access denied");
             }
 
@@ -58,31 +82,46 @@ namespace examen_web_application.Services.BookingService
             _UpsertBooking(dto, loggedUserID);
         }
 
-        public void UpsertBookingReception(BookingDTO bookingDTO, int loggedUserID)
+        public void UpsertBookingReception(Booking bookingDTO, int loggedUserID)
         {
             if (!UserPermissionHelper.GetPermissions(loggedUserID).Contains(UserServ.Helpers.UserPermission.Enums.PermissionTypeEnum.CanAdmBookings))
                 throw new Exception("Access denied");
             _UpsertBooking(bookingDTO, loggedUserID);
         }
 
-        private void _UpsertBooking(BookingDTO bookingDTO, int loggedUserID)
+        private void _UpsertBooking(Booking booking, int loggedUserID)
         {
-            var dbBooking = DbContext.Booking.FirstOrDefault(x => x.Id == bookingDTO.ID);
-            var toAdd = false;
+                var dbBooking = DbContext.Booking.FirstOrDefault(x => x.Id == booking.Id);
+
+            var roomId = DbContext.Room.FirstOrDefault(x => x.Id == booking.RoomID).Id;
+            var userId = DbContext.Users.FirstOrDefault(x => x.Id == booking.UserID).Id;
+
             var currDate = DateTime.Now;
+          
             if (dbBooking == null)
             {
-                dbBooking = new Booking()
-                {
-                    AddedOn = currDate,
-                    RoomID = bookingDTO.RoomID,
-                };
+                dbBooking = new Booking();
+                dbBooking.AddedOn = currDate;
+                dbBooking.UserID = userId;
+                dbBooking.RoomID = roomId;
+                dbBooking.StartDate = booking.StartDate;
+                dbBooking.EndDate = booking.EndDate;
+                dbBooking.BookingStatus = BookingStatusEnum.New;
+                dbBooking.PersNumber = booking.PersNumber;
+                dbBooking.UpdatedOn = currDate;
+            } else
+            {
+                dbBooking.UserID = userId;
+                dbBooking.RoomID = roomId;
+                dbBooking.StartDate = booking.StartDate;
+                dbBooking.EndDate = booking.EndDate;
+                dbBooking.BookingStatus = BookingStatusEnum.New;
+                dbBooking.PersNumber = booking.PersNumber;
+                dbBooking.UpdatedOn = currDate;
             }
-
-            dbBooking.StartDate = bookingDTO.StartDate;
-            dbBooking.UserID = bookingDTO.UserID;
-            if (toAdd)
+          
                 DbContext.Booking.Add(dbBooking);
+            Console.WriteLine(dbBooking);
             DbContext.SaveChanges();
         }
     }

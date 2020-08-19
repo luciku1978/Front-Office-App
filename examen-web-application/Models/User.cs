@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace examen_web_application.Models
 {
@@ -29,6 +26,10 @@ namespace examen_web_application.Models
         [EnumDataType(typeof(UserRole))]
         public UserRole UserRole { get; set; }
         public DateTime CreatedAt{ get; set; }
-       
+
+        public static implicit operator User(int v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

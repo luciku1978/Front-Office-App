@@ -31,4 +31,12 @@ export class UserService {
     return this.http.get<UserDTO[]>(this.base + 'getSelectableUsers').toPromise();
   }
 
+  updateOneUser(username, role, userId) {
+    return this.http.post<User[]>(`https://localhost:44381/api/users/updateuser`, {Username: username, UserRole:role, Id:userId})
+    .pipe(map(response => {
+    
+      return response;
+    }));
+  }
+
 }

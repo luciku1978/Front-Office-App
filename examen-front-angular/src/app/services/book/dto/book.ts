@@ -6,6 +6,10 @@ export class BookDto {
   endDate: Date;
   roomID: number;
   userID: number;
+  name: string;
+  lastName: string;
+  persNumber: number;
+
 
   constructor(room: RoomDto, user: UserDTO) {
     var currDate = new Date();
@@ -13,6 +17,10 @@ export class BookDto {
     this.endDate = currDate;
     this.roomID = room.id;
     this.userID = user.id;
-    
+    this.name = user.name;
+    this.lastName = user.lastName;
+    this.persNumber = 1;
   }
+
+
 }

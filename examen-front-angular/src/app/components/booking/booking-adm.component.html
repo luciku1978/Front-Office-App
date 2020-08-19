@@ -1,2 +1,82 @@
-<button (click)="upsertBooking()">Add booking</button>
-<h3>Booking adm</h3>
+<div class="header">
+    <h3>BOOKING MANAGEMENT</h3>
+   </div>
+<button mat-stroked-button color="primary" (click)="upsertBooking()">ADD BOOKING</button>
+<div>
+<mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Insert filter" #input>
+  </mat-form-field>
+  
+  <div class="mat-elevation-z8">
+    <table *ngIf="bookings !== null" mat-table [dataSource]="list" matSort>
+  
+      <!-- ID Column as Reservation number-->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> RES. NO.</th>
+        <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+      </ng-container>
+
+      <!-- Room number-->
+      <ng-container matColumnDef="roomNo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> ROOM NO. </th>
+        <td mat-cell *matCellDef="let row"> {{row.room.roomNo}} </td>
+      </ng-container>
+  
+      <!-- First Name -->
+      <ng-container matColumnDef="firstName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> NAME </th>
+        <td mat-cell *matCellDef="let row"> {{row.user.firstName}} </td>
+      </ng-container>
+  
+      <!-- Last Name -->
+      <ng-container matColumnDef="lastName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> SURNAME </th>
+        <td mat-cell *matCellDef="let row"> {{row.user.lastName}} </td>
+      </ng-container>
+  
+      <!-- Start Date  -->
+      <ng-container matColumnDef="startDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> C/IN </th>
+        <td mat-cell *matCellDef="let row" > {{row.startDate}} </td>
+      </ng-container>
+
+      <!-- End Date  -->
+      <ng-container matColumnDef="endDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> C/OUT </th>
+        <td mat-cell *matCellDef="let row" > {{row.endDate}} </td>
+      </ng-container>
+  
+      <!-- Persons Number -->
+      <ng-container matColumnDef="persNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> PERSONS </th>
+        <td mat-cell *matCellDef="let row"> {{row.persNumber}} </td>
+      </ng-container>
+
+      <!-- Booking Status -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> STATUS </th>
+        <td mat-cell *matCellDef="let row"> {{row.bookingStatus}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Options">
+        <th mat-header-cell *matHeaderCellDef>ACTIONS</th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          <button mat-raised-button color="accent"
+            (click)="openDialog(element.firstName, element.lastName, element.startDate, element.endDate, element.persNumber, element.status, element.id)">Edit</button> </td>
+      </ng-container>
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+      </tr>
+    </table>
+  
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  </div>
+  </div>>

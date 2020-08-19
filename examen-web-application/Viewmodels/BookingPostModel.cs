@@ -1,38 +1,21 @@
 ﻿using examen_web_application.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace examen_web_application.Services.BookingService.dto
+namespace examen_web_application.Viewmodels
 {
-    public class BookingDTO
+    public class BookingPostModel
     {
-        
-        public int Id { get; internal set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public BookingRoomDTO Room { get; set; }
-        public BookingUserDTO User { get; set; }
+        public int Id { get; set; }
         public int RoomID { get; set; }
         public int UserID { get; set; }
-
-        public int PersNumber { get; set; }
         public string BookingStatus { get; set; }
+        public int PersNumber { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public DateTime AddedOn { get; set; }
+        public DateTime UpdatedOn { get; set; }
 
-        public class BookingUserDTO
-        {
-            public int Id { get; set; }
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
-        }
-        public class BookingRoomDTO
-        {
-            public int Id { get; set; }
-            public string RoomNo { get; set; }
-        }
-
-        public static Booking Booking(BookingDTO book)
+        public static Booking Booking(BookingPostModel book)
         {
             BookingStatusEnum status = Models.BookingStatusEnum.New;
 
@@ -61,8 +44,11 @@ namespace examen_web_application.Services.BookingService.dto
                 PersNumber = book.PersNumber,
                 StartDate = book.StartDate,
                 EndDate = book.EndDate,
-               
+                AddedOn = book.AddedOn,
+                UpdatedOn = book.UpdatedOn
             };
         }
     }
+
+   
 }

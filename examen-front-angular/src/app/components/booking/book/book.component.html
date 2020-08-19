@@ -2,27 +2,34 @@
   <div>Create booking for: {{room.roomNo}}</div>
   <!--<div>Create booking for: "getRoomName()"</div>-->
   <div>Places: {{room.places}}</div>
-<div>
-  <div style="display:flex;flex-wrap:wrap">
-    <mat-form-field>
-      <input matInput [value]="book.startDate" (dateInput)="startDateChange($event)"  [matDatepicker]="startDate" placeholder="Start Date">
-      <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
-      <mat-datepicker #startDate></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput [value]="book.endDate" (dateInput)="endDateChange($event)" [matDatepicker]="endDate" placeholder="End date">
-      <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
-      <mat-datepicker #endDate></mat-datepicker>
-    </mat-form-field>
-
-  </div>
   <div>
-      <room-select *ngIf="asReception"></room-select>
-    <users-select *ngIf="asReception"></users-select>
+    <div style="display:flex;flex-wrap:wrap">
+      <mat-form-field>
+        <input matInput [value]="book.startDate" (dateInput)="startDateChange($event)" [matDatepicker]="startDate"
+          placeholder="Start Date">
+        <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+        <mat-datepicker #startDate></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [value]="book.endDate" (dateInput)="endDateChange($event)" [matDatepicker]="endDate"
+          placeholder="End date">
+        <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+        <mat-datepicker #endDate></mat-datepicker>
+      </mat-form-field>
+
+    </div>
+    <div>
+      
+        <room-select (selectedChange)=roomSelect($event)></room-select>
+   
+        <input *ngIf="!asReception" matInput [value]="book.name" placeholder="First Name">
+        <input *ngIf="!asReception" matInput [value]="book.lastName" placeholder="Last Name">
+        <input matInput [value]="book.persNumber" type='number' (input)=changePersNumber($event.target.value)>
+        <users-select (selectedChange)=userSelect($event) *ngIf="asReception"></users-select>
+    </div>
+    <div class="modal-footer" style="display:flex">
+      <div style="flex: 1 1 auto"></div>
+        <button mat-raised-button color="warn" (click)="save()">Save</button>
+    </div>
   </div>
-  <div style="display:flex">
-    <div style="flex: 1 1 auto"></div>
-    <button (click)="save()">Save</button>
-  </div>
-</div>
 </div>

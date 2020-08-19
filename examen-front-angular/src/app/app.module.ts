@@ -23,6 +23,7 @@ import { RoomTypeSelect } from './lib/select/room-type/room-type';
 import { BookingAdmComponent } from './components/booking/booking-adm.component';
 import { UsersSelect } from './components/users/select/users-select';
 import { RoomSelect } from './components/room/select/room-select';
+import { JwPaginationComponent } from 'jw-angular-pagination';
 
 
 
@@ -43,7 +44,8 @@ import { RoomSelect } from './components/room/select/room-select';
     UsersSelect,
     RoomSelect,
     BookComponent,
-    DialogOverviewExampleDialog
+    DialogOverviewExampleDialog,
+    JwPaginationComponent
   ],
   entryComponents: [
     BookComponent,

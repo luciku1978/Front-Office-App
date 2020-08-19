@@ -15,7 +15,6 @@ using System.Reflection;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace examen_web_application.Services
 {
@@ -31,7 +30,7 @@ namespace examen_web_application.Services
         User Create(UserPostModel user);
         User Upsert(int id, UserPostModel userPostModel, User addeBy);
         User Delete(int id);
-
+        User Update(string username, string userRole, int id);
     }
 
     public class UsersService : IUserService
@@ -39,6 +38,7 @@ namespace examen_web_application.Services
         private UsersDbContext context;
         private readonly AppSettings appSettings;
         private IUserPermissionHelper UserPermissionHelper;
+
 
         public UsersService(UsersDbContext context, 
             IOptions<AppSettings> appSettings,
@@ -51,13 +51,11 @@ namespace examen_web_application.Services
         public UserGetModel Authenticate(string username, string password)
         {
             var user = context.Users
-                .SingleOrDefault(x => x.Username == username &&
-                                 x.Password == ComputeSha256Hash(password));
+                .SingleOrDefault(x => x.Username == username && x.Password == ComputeSha256Hash(password));
 
             // return null if user not found
             if (user == null)
                 return null;
-
             // authentication successful so generate jwt token
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
@@ -72,14 +70,15 @@ namespace examen_web_application.Services
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            
             var result = new UserGetModel
             {
                 Id = user.Id,
                 Email = user.Email,
                 Username = user.Username,
                 Token = tokenHandler.WriteToken(token),
-                UserRole = user.UserRole.ToString()
+                UserRole = user.UserRole.ToString(),
+                Name = user.FirstName,
+                LastName = user.LastName
             };
             return result;
         }
@@ -224,6 +223,36 @@ namespace examen_web_application.Services
             return existing;
         }
 
+        public User Update(string username, string userRole, int id)
+        {
+            var existing = context.Users.FirstOrDefault(user => user.Id == id);
+            if (existing == null)
+            {
+                return null;
+            }
+
+            Console.WriteLine(existing);
+
+            existing.Username = username;
+            if(userRole.Equals("Admin"))
+            {
+                existing.UserRole = UserRole.Admin;
+
+            }else if (userRole.Equals("Client"))
+            {
+                existing.UserRole = UserRole.Client;
+            }else
+            {
+                existing.UserRole = UserRole.FOStaff;
+            }
+            Console.WriteLine(existing);
+            context.Users
+            .Update(existing);
+            context.SaveChanges();
+            return existing;
+
+        }
+
         public List<UserDTO> GetSelectableUsers(int loggedUserID)
         {
             if (!UserPermissionHelper.GetPermissions(loggedUserID).Contains(UserServ.Helpers.UserPermission.Enums.PermissionTypeEnum.CanAdmBookings))
@@ -232,7 +261,8 @@ namespace examen_web_application.Services
             return context.Users.Select(x => new UserDTO()
             {
                 ID = x.Id,
-                Name = x.FirstName
+                Name = x.FirstName,
+                LastName = x.LastName
             }).ToList();
         }
     }

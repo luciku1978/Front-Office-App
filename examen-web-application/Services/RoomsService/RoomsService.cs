@@ -1,11 +1,9 @@
 ﻿using examen_web_application.Models;
 using examen_web_application.Services.RoomsService.dto;
 using Microsoft.AspNetCore.Hosting;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace examen_web_application.Services.RoomsService
 {

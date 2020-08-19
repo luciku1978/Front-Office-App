@@ -1,12 +1,8 @@
-﻿using examen_web_application.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace examen_web_application.Services.UserServ.adm.dto
 {
-    
+
 
     public class UserPermAdmDTO
     {

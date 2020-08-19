@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using examen_web_application.Models;
 using examen_web_application.Services;
 using examen_web_application.Viewmodels;
@@ -11,9 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace examen_web_application.Controllers
 {
-   // https://jasonwatmore.com/post/2018/08/14/aspnet-core-21-jwt-authentication-tutorial-with-example-api
-        //[Route("api/[controller]/[action]")]
-        [Route("api/[controller]")]
+    // https://jasonwatmore.com/post/2018/08/14/aspnet-core-21-jwt-authentication-tutorial-with-example-api
+    //[Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
         [ApiController]
         public class UsersController : ControllerBase
         {
@@ -50,7 +47,7 @@ namespace examen_web_application.Controllers
             }
 
             /// <summary>
-            /// Register a user in the database
+            /// Register a user in the databas
             /// </summary>
             /// <remarks>
             ///     {
@@ -76,9 +73,38 @@ namespace examen_web_application.Controllers
                 return Ok(user);
             }
 
-            //[AllowAnonymous]
-            [Authorize(Roles = "FOStaff, Admin")]
-            [HttpGet]
+            [AllowAnonymous]
+            [HttpPost("updateuser")]
+            public IActionResult UpdateUser([FromBody]UserGetModel userData)
+            {
+            //User addedBy = _userService.GetCurrentUser(HttpContext);
+            //var result = _userService.Delete(id, addedBy);
+            //if (result == null)
+            //{
+            //    return Forbid("You don't have rigts to perform this action!");
+            //}
+            //return Ok(result);
+
+                User currentLogedUser = _userService.GetCurrentUser(HttpContext);
+
+                if (currentLogedUser.UserRole == UserRole.Admin)
+                {
+                    User getUser = _userService.GetById(userData.Id);
+
+                }
+
+                var result = _userService.Update(userData.Username, userData.UserRole, userData.Id);
+                if (result == null)
+                {
+                    return NotFound();
+                }
+
+             return Ok(result);
+            }
+
+        
+        [Authorize(Roles = "FOStaff, Admin")]
+        [HttpGet]
             public IActionResult GetAll()
             {
                 var users = _userService.GetAll();
@@ -179,6 +205,8 @@ namespace examen_web_application.Controllers
             return Ok(result);
         }
 
+      
+
 
 
         /// <summary>
@@ -189,7 +217,7 @@ namespace examen_web_application.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
             [ProducesResponseType(StatusCodes.Status404NotFound)]
             [ProducesResponseType(StatusCodes.Status403Forbidden)]
-            //[Authorize(Roles = "Admin,FOStaff")]
+            //[Authorize(Roles = "Admin")]
             [HttpDelete("{id}")]
             public IActionResult Delete(int id)
             {

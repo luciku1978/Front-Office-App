@@ -1,20 +1,21 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { RoomAdmService } from 'src/app/services/room/adm/roomAdm.service';
 import { RoomAdmDTO } from 'src/app/services/room/adm/dto/roomAdmDTO';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatPaginator } from '@angular/material';
 import { AddRoomComponent } from './add/add-room.component';
 
 @Component({
   selector: 'room-adm-cmp',
-  templateUrl: './roomAdm.component.html'
+  templateUrl: './roomAdm.component.html',
+  styleUrls: ['./roomAdm.component.scss']
 })
 export class RoomAdmComponent implements OnInit {
   rooms: RoomAdmDTO[] = [];
   constructor(private roomAdmService: RoomAdmService,
     private dialog: MatDialog) {
-
-  }
-
+        }
+        @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+        public displayedColumns: string[] = ['roomNo', 'roomType', 'description', 'status', 'Options'];
   ngOnInit() {
     this.getItems();
   }

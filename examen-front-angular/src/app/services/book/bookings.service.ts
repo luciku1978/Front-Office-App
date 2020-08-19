@@ -5,11 +5,43 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class BookingService {
-    base: string = environment.srv_url + "api/bookings/";
+  base: string = environment.srv_url + "api/bookings/";
 
-    constructor(private http: HttpClient) { }
-  
-    getBookingsAdm() {
-      return this.http.get < BookDTO[]>(this.base + 'getBookingsAdm').toPromise();
+  constructor(private http: HttpClient) { }
+
+  getBookingsAdm() {
+    return this.http.get<BookDTO[]>(this.base + 'getBookingsAdm').toPromise();
+  }
+
+  saveBookingAdm(book) {
+    const newBook = {
+      startDate: book.startDate,
+      endDate: book.endDate,
+      userID: book.userID,
+      roomID: book.roomID,
+      bookingStatus: 'New',
+      persNumber: book.persNumber
     }
+    console.log(newBook)
+    return this.http.post(this.base + 'upsertBookingReception', newBook).toPromise().then((res) => {
+      console.log(res)
+    });
+  }
+
+  updateBookingAdm(book) {
+    const newBook = {
+      id: book.id,
+      startDate: book.startDate,
+      endDate: book.endDate,
+      userID: book.userID,
+      roomID: book.roomID,
+      bookingStatus: book.bookingStatus,
+      persNumber: book.persNumber
+    }
+    console.log(newBook)
+    return this.http.post(this.base + 'upsertBookingReception', newBook).toPromise().then((res) => {
+      console.log(res)
+    });
+  }
+
 }

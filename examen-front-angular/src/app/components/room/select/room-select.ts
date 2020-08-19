@@ -9,15 +9,15 @@ import { RoomService } from 'src/app/services/room/room-service';
     templateUrl: './room-select.html'
 })
 export class RoomSelect implements OnInit {
-    model:string;
+    model: string;
     @Input()
-    selected:RoomDto;
+    selected;
 
     @Output()
-    selectedChange:EventEmitter<RoomDto> = new EventEmitter<RoomDto>();
-    items:RoomDto[] = [];
+    selectedChange: EventEmitter<RoomDto> = new EventEmitter<RoomDto>();
+    items = [];
 
-    constructor(private roomService:RoomService) {}
+    constructor(private roomService: RoomService) { }
     ngOnInit() {
         this.getTypes();
     }
@@ -25,14 +25,15 @@ export class RoomSelect implements OnInit {
     getTypes() {
         this.roomService.getSelectableRooms().then(rsp => {
             this.items = rsp;
-            if(!this.selected)
+            if (!this.selected)
                 this.selected = this.items[0];
-            this.model = this.selected.name;
+            this.model = this.selected.roomNo;
+            this.selectedChange.emit(this.selected);
         });
     }
 
     change() {
-        this.selected = this.items.find(x=> x.name == this.model);
+        this.selected = this.items.find(x => x.roomNo === this.model);
         this.selectedChange.emit(this.selected);
     }
 }

@@ -12,7 +12,7 @@ export class UsersGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const currentUser = this.authService.currentUserValue;
-    if (currentUser.userRole !== "Regular") {
+    if (currentUser.userRole !== "Client") {
       return true;
     }
 
