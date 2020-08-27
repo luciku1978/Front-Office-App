@@ -1,6 +1,7 @@
 ﻿using examen_web_application.Models;
 using examen_web_application.Services.BookingService.dto;
 using examen_web_application.Services.UserServ.Helpers;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,8 +85,7 @@ namespace examen_web_application.Services.BookingService
 
         public void UpsertBookingReception(Booking bookingDTO, int loggedUserID)
         {
-            if (!UserPermissionHelper.GetPermissions(loggedUserID).Contains(UserServ.Helpers.UserPermission.Enums.PermissionTypeEnum.CanAdmBookings))
-                throw new Exception("Access denied");
+           
             _UpsertBooking(bookingDTO, loggedUserID);
         }
 
@@ -109,18 +109,24 @@ namespace examen_web_application.Services.BookingService
                 dbBooking.BookingStatus = BookingStatusEnum.New;
                 dbBooking.PersNumber = booking.PersNumber;
                 dbBooking.UpdatedOn = currDate;
-            } else
+
+                DbContext.Booking.Add(dbBooking);
+
+            }
+            else
             {
                 dbBooking.UserID = userId;
                 dbBooking.RoomID = roomId;
                 dbBooking.StartDate = booking.StartDate;
                 dbBooking.EndDate = booking.EndDate;
-                dbBooking.BookingStatus = BookingStatusEnum.New;
+                dbBooking.BookingStatus = booking.BookingStatus;
                 dbBooking.PersNumber = booking.PersNumber;
                 dbBooking.UpdatedOn = currDate;
+                dbBooking.Id = booking.Id;
+
+                DbContext.Booking.Update(dbBooking);
             }
           
-                DbContext.Booking.Add(dbBooking);
             Console.WriteLine(dbBooking);
             DbContext.SaveChanges();
         }

@@ -2,12 +2,21 @@ import { RoomDto } from '../../room/dto/roomDto';
 import { UserDTO } from '../../user/dto/userDTO';
 
 export class BookDto {
+  bookingStatus: String;
+  id: number;
+  room: {
+    id: number,
+    roomNo: String
+  }
+  user: {
+    id: number,
+    firstName: String,
+    lastName: String
+  }
   startDate: Date;
   endDate: Date;
   roomID: number;
   userID: number;
-  name: string;
-  lastName: string;
   persNumber: number;
 
 
@@ -17,8 +26,6 @@ export class BookDto {
     this.endDate = currDate;
     this.roomID = room.id;
     this.userID = user.id;
-    this.name = user.name;
-    this.lastName = user.lastName;
     this.persNumber = 1;
   }
 

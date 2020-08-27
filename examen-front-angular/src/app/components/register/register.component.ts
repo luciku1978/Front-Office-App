@@ -80,7 +80,7 @@ export class RegisterComponent implements OnInit {
 
           this.errors = [error];
           this.loading = false;
-          this.toastr.error('Account can not created - username already exists!', '', {
+          this.toastr.error('Account can not be created - username already exists!', '', {
             positionClass: 'toast-bottom-right',
           });
         });

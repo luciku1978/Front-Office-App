@@ -12,7 +12,7 @@ export class RoomSelect implements OnInit {
     model: string;
     @Input()
     selected;
-
+    @Input() roomNumber;
     @Output()
     selectedChange: EventEmitter<RoomDto> = new EventEmitter<RoomDto>();
     items = [];
@@ -25,9 +25,14 @@ export class RoomSelect implements OnInit {
     getTypes() {
         this.roomService.getSelectableRooms().then(rsp => {
             this.items = rsp;
-            if (!this.selected)
+            if (!this.selected) {
                 this.selected = this.items[0];
-            this.model = this.selected.roomNo;
+                this.model = this.selected.roomNo;
+            }
+            if (this.roomNumber) {
+                this.selected = this.items.find(x => x.roomNo ===this.roomNumber);
+                this.model = this.selected.roomNo
+            }
             this.selectedChange.emit(this.selected);
         });
     }

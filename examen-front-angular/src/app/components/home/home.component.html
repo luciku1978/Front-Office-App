@@ -4,31 +4,33 @@
       <span class="app-title" (click)="home()">FRONT OFFICE WEBAPP</span>
       <span class="spacer"></span>
       <div class="user-menu">
-        <span class="user-menu-title">Hello, {{authService.currentUserValue.name}}</span>
+        <span class="user-menu-title">Hello, {{authService.currentUserValue.firstName }}</span>
         <button autotest-id="userMenu" mat-icon-button [matMenuTriggerFor]="menu" class="user-menu-btn">
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button autotest-id="userManagement" mat-menu-item (click)="userManagement()">
+          <button *ngIf='perm' autotest-id="userManagement" mat-menu-item
+            (click)="userManagement()">
             <mat-icon>people</mat-icon>
             <span>Users</span>
           </button>
-          <button autotest-id="userManagement" mat-menu-item (click)="gotoBookingAdm()">
+          <button *ngIf='perm' autotest-id="userManagement" mat-menu-item
+            (click)="gotoBookingAdm()">
             <mat-icon>people</mat-icon>
             <span>Bookings</span>
           </button>
-          <button autotest-id="userAdm" mat-menu-item (click)="goToUserPerm()">
+          <button *ngIf='perm' autotest-id="userAdm" mat-menu-item (click)="goToUserPerm()">
             <mat-icon>people</mat-icon>
             <span>Permissions</span>
           </button>
-          <button autotest-id="room" mat-menu-item (click)="gotoRoom()">
+          <button *ngIf='!perm' autotest-id="room" mat-menu-item (click)="gotoRoom()">
             <mat-icon>Rooms</mat-icon>
             <span>Rooms</span>
           </button>
-          <button autotest-id="room" mat-menu-item (click)="gotoRoomAdm()">
-              <mat-icon>Rooms</mat-icon>
-              <span>Rooms Adm</span>
-            </button>
+          <button *ngIf='perm' autotest-id="room" mat-menu-item (click)="gotoRoomAdm()">
+            <mat-icon>Rooms</mat-icon>
+            <span>Rooms Adm</span>
+          </button>
           <button autotest-id="logoutBtn" mat-menu-item (click)="logout()">
             <mat-icon>keyboard_tab</mat-icon>
             <span>Log out</span>
@@ -37,5 +39,8 @@
       </div>
     </mat-toolbar-row>
   </mat-toolbar>
+  <div position="flex">
+    <h1 style="text-align:center">WELLCOME TO HOTEL RIXOS!</h1>
+  </div>
   <router-outlet></router-outlet>
 </div>

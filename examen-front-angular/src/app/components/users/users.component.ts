@@ -9,7 +9,9 @@ import { findIndex } from 'rxjs/operators';
 
 export interface DialogData {
   username: string;
+
   userRole: string;
+  email: string;
 }
 
 @Component({
@@ -20,33 +22,39 @@ export interface DialogData {
 export class UsersComponent implements OnInit {
   username: string;
   userRole: string;
+  email: string;
+  firstName: string;
+  lastName: string;
   public users: any = null;
   public changes: any = null;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  public displayedColumns: string[] = ['Username', 'Email', 'UserRole', 'Options'];
+  public displayedColumns: string[] = ['username', 'email', 'userRole', 'options'];
 
 
   constructor(public dialog: MatDialog, private userService: UserService, private route: Router) {
     this.getAllUsers();
   }
 
-  openDialog(username, userRole, id): void {
-    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
-      width: '250px',
-      data: { username, userRole, id }
+  openDialog(username, firstName, lastName, email, userRole, id): void {
+    const dialogRef = this.dialog.open(UserEditDialog, {
+      width: '300px',
+      data: { username, firstName, lastName, email, userRole, id }
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed', result);
       if (result) {
-        const { username, userRole, id } = result
-        const userIndex =this.users.filteredData.findIndex((u) => {
+        const { username, firstName, lastName, email, userRole, id } = result
+        const userIndex = this.users.filteredData.findIndex((u) => {
           return u.id === id
         })
         console.log(this.users, userIndex)
         this.users.filteredData[userIndex].username = username
+        this.users.filteredData[userIndex].firstName = firstName
+        this.users.filteredData[userIndex].lastName = lastName
+        this.users.filteredData[userIndex].email = email
         this.users.filteredData[userIndex].userRole = userRole
-        this.userService.updateOneUser(username, userRole, id).subscribe(u => {
+        this.userService.updateOneUser(username, firstName, lastName, email, userRole, id).subscribe(u => {
           console.log(u);
         });
       }
@@ -59,7 +67,7 @@ export class UsersComponent implements OnInit {
   }
 
   getAllUsers() {
-    //this.users = []
+
     this.userService.getAllUsers().subscribe(u => {
       this.users = new MatTableDataSource(u);
       this.users.paginator = this.paginator;
@@ -76,10 +84,10 @@ export class UsersComponent implements OnInit {
   selector: 'userEdit.component',
   templateUrl: './userEdit.component.html',
 })
-export class DialogOverviewExampleDialog {
+export class UserEditDialog {
 
   constructor(
-    public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
+    public dialogRef: MatDialogRef<UserEditDialog>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
 
   onNoClick(): void {
@@ -88,8 +96,3 @@ export class DialogOverviewExampleDialog {
 
 }
 
-//@Component({
-  //selector: 'paginator-overview-example',
-  //templateUrl: 'paginator-overview-example.html',
-//})
-//export class PaginatorOverviewExample {}

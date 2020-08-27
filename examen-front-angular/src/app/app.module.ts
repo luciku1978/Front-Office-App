@@ -6,8 +6,8 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { SharedModule } from './modules/shared.module';
 import { HttpClientModule } from '@angular/common/http';
-import { UsersComponent, DialogOverviewExampleDialog } from './components/users/users.component';
-import { MatPaginatorModule } from '@angular/material';
+import { UsersComponent, UserEditDialog } from './components/users/users.component';
+import { MatPaginatorModule, MatTableModule, MatSortModule, MAT_FORM_FIELD_DEFAULT_OPTIONS, MatNativeDateModule } from '@angular/material';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -44,17 +44,20 @@ import { JwPaginationComponent } from 'jw-angular-pagination';
     UsersSelect,
     RoomSelect,
     BookComponent,
-    DialogOverviewExampleDialog,
+    UserEditDialog,
     JwPaginationComponent
   ],
   entryComponents: [
     BookComponent,
     AddRoomComponent,
-    DialogOverviewExampleDialog
+    UserEditDialog
   ],
   imports: [
     MatDatepickerModule,
     BrowserModule,
+    MatTableModule,
+    MatSortModule,
+    MatNativeDateModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
@@ -62,9 +65,11 @@ import { JwPaginationComponent } from 'jw-angular-pagination';
     FormsModule,
     HttpClientModule,
     MatPaginatorModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    
+
   ],
-  providers: [],
+  providers: [ { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,7 +1,10 @@
-<select [(ngModel)]="model" (ngModelChange)="change($event)">
-    <option  *ngFor="let item of items" [ngValue]="item.id">
-        <div>
-            {{item.name}} {{item.lastName}}
-        </div>
-    </option>
-</select>
+<mat-form-field appearance="fill">
+    <mat-label>Username:</mat-label>
+    <mat-select [(ngModel)]="model" (ngModelChange)="change($event)">
+        <mat-option *ngFor="let item of items" [value]="item.id">
+            <div>
+                {{item.name}} {{item.lastName}}
+            </div>
+        </mat-option>
+    </mat-select>
+</mat-form-field>

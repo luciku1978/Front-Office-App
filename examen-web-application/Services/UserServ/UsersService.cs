@@ -30,7 +30,7 @@ namespace examen_web_application.Services
         User Create(UserPostModel user);
         User Upsert(int id, UserPostModel userPostModel, User addeBy);
         User Delete(int id);
-        User Update(string username, string userRole, int id);
+        User Update(string username,string firstName, string lastName,string email, string userRole, int id);
     }
 
     public class UsersService : IUserService
@@ -77,7 +77,7 @@ namespace examen_web_application.Services
                 Username = user.Username,
                 Token = tokenHandler.WriteToken(token),
                 UserRole = user.UserRole.ToString(),
-                Name = user.FirstName,
+                FirstName = user.FirstName,
                 LastName = user.LastName
             };
             return result;
@@ -152,6 +152,8 @@ namespace examen_web_application.Services
                 Email = user.Email,
                 Username = user.Username,
                 UserRole = GetDescription(user.UserRole),
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 Token = null
             });
             
@@ -223,7 +225,7 @@ namespace examen_web_application.Services
             return existing;
         }
 
-        public User Update(string username, string userRole, int id)
+        public User Update(string username,string firstName, string lastName,string email, string userRole, int id)
         {
             var existing = context.Users.FirstOrDefault(user => user.Id == id);
             if (existing == null)
@@ -234,6 +236,9 @@ namespace examen_web_application.Services
             Console.WriteLine(existing);
 
             existing.Username = username;
+            existing.FirstName = firstName;
+            existing.LastName = lastName;
+            existing.Email = email;
             if(userRole.Equals("Admin"))
             {
                 existing.UserRole = UserRole.Admin;

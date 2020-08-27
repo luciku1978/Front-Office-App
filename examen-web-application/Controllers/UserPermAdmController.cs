@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using examen_web_application.Services;
+﻿using examen_web_application.Services;
 using examen_web_application.Services.UserServ;
 using examen_web_application.Services.UserServ.adm.dto;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace examen_web_application.Controllers

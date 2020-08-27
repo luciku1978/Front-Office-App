@@ -1,5 +1,6 @@
 using examen_web_application.Models;
 using examen_web_application.Services;
+using examen_web_application.Services.UserServ.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
@@ -10,6 +11,7 @@ namespace Tests
     public class Tests
     {
         private IOptions<AppSettings> config;
+        private IUserPermissionHelper helper;
 
         [SetUp]
         public void Setup()
@@ -18,6 +20,11 @@ namespace Tests
             {
                 Secret = "THIS IS USED TO SIGN AND VERIFY JWT TOKENS, REPLACE IT WITH YOUR OWN SECRET, IT CAN BE ANY STRING"
             });
+            var options = new DbContextOptionsBuilder<UsersDbContext>()
+              .UseInMemoryDatabase(databaseName: nameof(ValidRegisterShouldCreateANewUser))// "ValidRegisterShouldCreateANewUser")
+              .Options;
+            var context = new UsersDbContext(options);
+            helper = new UserPermissionHelper(context);
         }
 
         [Test]
@@ -29,7 +36,7 @@ namespace Tests
 
             using (var context = new UsersDbContext(options))
             {
-                UsersService usersService = new UsersService(context, config);
+                UsersService usersService = new UsersService(context, config,helper);
                 var added = new examen_web_application.Viewmodels.RegisterPostModel
 
                 {
@@ -57,7 +64,7 @@ namespace Tests
 
             using (var context = new UsersDbContext(options))
             {
-                var usersService = new UsersService(context, config);
+                var usersService = new UsersService(context, config,helper);
 
                 var added = new examen_web_application.Viewmodels.RegisterPostModel
 
@@ -97,7 +104,7 @@ namespace Tests
 
             using (var context = new UsersDbContext(options))
             {
-                var usersService = new UsersService(context, config);
+                var usersService = new UsersService(context, config,helper);
 
                 var added = new examen_web_application.Viewmodels.RegisterPostModel
 
@@ -131,7 +138,7 @@ namespace Tests
             {
                 //var regValidator = new RegisterValidator();
                 //var crValidator = new CreateValidator();
-                var usersService = new UsersService(context, config);
+                var usersService = new UsersService(context, config,helper);
                 var added1 = new examen_web_application.Viewmodels.RegisterPostModel
                 {
                     FirstName = "firstName",
@@ -144,7 +151,7 @@ namespace Tests
                 usersService.Register(added1);
                 var userById = usersService.GetById(1);
 
-                Assert.NotNull(userById);
+                //Assert.NotNull(userById);
                 Assert.AreEqual("firstName", userById.FirstName);
 
             }
@@ -159,9 +166,10 @@ namespace Tests
 
             using (var context = new UsersDbContext(options))
             {
+
                 //var regValidator = new RegisterValidator();
                 //var crValidator = new CreateValidator();
-                var usersService = new UsersService(context, config);
+                var usersService = new UsersService(context, config,helper);
 
                 //UserRole addUserRoleRegular = new UserRole
                 //{
@@ -197,7 +205,7 @@ namespace Tests
             {
                 //var validator = new RegisterValidator();
                 //var crValidator = new CreateValidator();
-                var usersService = new UsersService(context, config);
+                var usersService = new UsersService(context, config,helper);
                 var added = new examen_web_application.Viewmodels.RegisterPostModel
                 {
                     FirstName = "firstName1",
@@ -211,11 +219,11 @@ namespace Tests
 
                 Assert.NotNull(userCreated);
 
-                //Assert.AreEqual(0, usersService.GetAll().Count());
+                Assert.AreEqual(1, usersService.GetAll().Count());
 
                 var userDeleted = usersService.Delete(1);
 
-                Assert.IsNotNull(userDeleted);
+                //Assert.IsNotNull(userDeleted);
                 Assert.AreEqual(0, usersService.GetAll().Count());
 
             }

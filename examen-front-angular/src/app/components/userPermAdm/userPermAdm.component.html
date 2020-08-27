@@ -1,14 +1,19 @@
 <div class="header">
-    <h3>PERMISSIONS MANAGEMENT</h3>
+    <h2 style="color:dodgerblue" >PERMISSIONS MANAGEMENT</h2>
    </div>
 
 <div>
     <div *ngFor="let user of userPerms" >
         <h3>  {{user.userName}}</h3>
-        <div> {{user.userRole}}</div>
-        <div *ngFor="let perm of user.permissions">
-            <input type="checkbox" [(ngModel)]="perm.isAssigned" /> {{perm.name}}
+        <div> {{user.userRole}}</div> 
+        <div>
+            <span *ngFor="let perm of user.permissions">
+                <input type="checkbox" [(ngModel)]="perm.isAssigned" /> {{perm.name}}
+            </span>
         </div>
-        <button (click)="savePerms(user)">Save</button>
+        <div>
+            <button (click)="savePerms(user)">Save</button>
+        </div>
     </div>
+    
 </div>

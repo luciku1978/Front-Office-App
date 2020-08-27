@@ -8,22 +8,15 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
+  perm: any;
   constructor(
     private router: Router,
     private authService: AuthService,
   ) {
-
-    }
+  }
 
   ngOnInit() {
-    // const currentRoute = this.router.url;
-
-    // if (currentRoute === '/users') {
-    //   this.router.navigate(['/users']);
-    // } else {
-    //   this.router.navigate(['/expenses']);
-    // }
+    this.perm = this.authService.currentUserValue.userRole === 'Client' ? false : true
   }
 
   home() {
@@ -51,7 +44,7 @@ export class HomeComponent implements OnInit {
   }
 
   logout() {
-    
+
     this.authService.logout();
     this.router.navigate(['/login']);
   }

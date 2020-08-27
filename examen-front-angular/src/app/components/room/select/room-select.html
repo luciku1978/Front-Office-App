@@ -1,7 +1,10 @@
-<select [(ngModel)]="model" (ngModelChange)="change()">
-    <option *ngFor="let item of items">
-        <div>
-            {{item.roomNo}}
-        </div>
-    </option>
-</select>
+<mat-form-field appearance="fill">
+    <mat-label>Room number:</mat-label>
+    <mat-select [(ngModel)]="model" (ngModelChange)="change()">
+        <mat-option *ngFor="let item of items" [value]='item.roomNo'>
+            <div>
+                {{item.roomNo}}
+            </div>
+        </mat-option>
+    </mat-select>
+</mat-form-field>

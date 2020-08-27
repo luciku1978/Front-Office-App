@@ -6,23 +6,41 @@ import { RoomTypeDTO } from 'src/app/services/room/dto/roomTypeDTO';
 
 @Component({
   selector: 'add-room-cmp',
-  templateUrl: './add-room.component.html'
+  templateUrl: './add-room.component.html',
+  styleUrls: ['./add-room.component.scss']
 })
 export class AddRoomComponent implements OnInit {
   room: RoomAdmDTO;
-  onRoomUpserted:EventEmitter<any> = new EventEmitter<any>();
+  onRoomUpserted: EventEmitter<any> = new EventEmitter<any>();
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private roomAdmService: RoomAdmService
   ) {
     this.room = data.room as RoomAdmDTO;
-    if (!this.room)
+    if (!this.room) {
       this.room = new RoomAdmDTO();
+      console.log('new ROOM', this.room)
+    }
+
+
   }
 
   ngOnInit() {
-    
+    console.log(this.room)
   }
+
+  changeDescription(value) {
+    this.room.description = value
+  }
+
+  changePrice(value) {
+    this.room.price = value
+  }
+
+  changeRoomNo(value) {
+    this.room.roomNo = value
+  }
+
 
   save() {
     this.roomAdmService.upsertRoom(this.room).subscribe(rsp => {
@@ -32,6 +50,10 @@ export class AddRoomComponent implements OnInit {
 
   onRoomTypeChange(ev) {
     this.room.type = ev as RoomTypeDTO;
+  }
+
+  close() {
+
   }
 
 }

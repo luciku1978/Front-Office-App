@@ -17,6 +17,7 @@ export class AuthService {
 
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
+    
   }
 
   login(username: string, password: string) {

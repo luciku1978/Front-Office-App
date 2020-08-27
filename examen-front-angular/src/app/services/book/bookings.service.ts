@@ -29,7 +29,8 @@ export class BookingService {
   }
 
   updateBookingAdm(book) {
-    const newBook = {
+    console.log(book)
+    const updatedBook = {
       id: book.id,
       startDate: book.startDate,
       endDate: book.endDate,
@@ -38,8 +39,8 @@ export class BookingService {
       bookingStatus: book.bookingStatus,
       persNumber: book.persNumber
     }
-    console.log(newBook)
-    return this.http.post(this.base + 'upsertBookingReception', newBook).toPromise().then((res) => {
+    console.log(updatedBook)
+    return this.http.post(this.base + 'upsertBookingReception', updatedBook).toPromise().then((res) => {
       console.log(res)
     });
   }

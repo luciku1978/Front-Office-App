@@ -27,9 +27,9 @@ namespace examen_web_application.Models
         public UserRole UserRole { get; set; }
         public DateTime CreatedAt{ get; set; }
 
-        public static implicit operator User(int v)
-        {
-            throw new NotImplementedException();
-        }
+        //public static implicit operator User(int v)
+        //{
+         //   throw new NotImplementedException();
+       // }
     }
 }

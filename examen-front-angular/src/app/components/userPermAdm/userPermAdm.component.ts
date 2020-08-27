@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { UserAdmService } from 'src/app/services/user/user_adm.service';
 import { UserPermAdmDTO } from 'src/app/services/user/dto/userPermAdmDTO';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'perm-adm-cmp',
@@ -8,7 +9,10 @@ import { UserPermAdmDTO } from 'src/app/services/user/dto/userPermAdmDTO';
 })
 export class UserPermAdmComponent implements OnInit {
   userPerms: UserPermAdmDTO[] = [];
-  constructor(private userAdmService: UserAdmService) {
+  errors: string[] = [];
+  constructor(private userAdmService: UserAdmService,
+    private toastr: ToastrService
+    ) {
 
   }
 
@@ -24,7 +28,10 @@ export class UserPermAdmComponent implements OnInit {
 
   savePerms(user: UserPermAdmDTO) {
     this.userAdmService.assignPermissions(user).subscribe(rsp => {
-      alert("Perm saved");
+      // this.toastr.success('Permission saved successfully!', '', {
+      //   positionClass: 'toast-bottom-center',
+      // });
+      alert("Permission succesfully saved!");
       this.getPermissions();
     })
   }

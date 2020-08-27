@@ -93,7 +93,7 @@ namespace examen_web_application.Controllers
 
                 }
 
-                var result = _userService.Update(userData.Username, userData.UserRole, userData.Id);
+                var result = _userService.Update(userData.Username,userData.FirstName,userData.LastName,userData.Email, userData.UserRole, userData.Id);
                 if (result == null)
                 {
                     return NotFound();

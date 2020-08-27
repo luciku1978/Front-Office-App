@@ -1,35 +1,65 @@
+<h2 mat-dialog-title *ngIf="book.id">UPDATE BOOKING NO: {{book.id}}</h2>
+<h2 mat-dialog-title *ngIf="!book.id">ADD BOOKING</h2>
+
 <div *ngIf="room">
-  <div>Create booking for: {{room.roomNo}}</div>
   <!--<div>Create booking for: "getRoomName()"</div>-->
-  <div>Places: {{room.places}}</div>
   <div>
     <div style="display:flex;flex-wrap:wrap">
       <mat-form-field>
-        <input matInput [value]="book.startDate" (dateInput)="startDateChange($event)" [matDatepicker]="startDate"
-          placeholder="Start Date">
+        <input matInput [min]="minDate" [value]="book.startDate" (dateInput)="startDateChange($event)"
+          [matDatepicker]="startDate" placeholder="Start Date">
         <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
         <mat-datepicker #startDate></mat-datepicker>
       </mat-form-field>
       <mat-form-field>
-        <input matInput [value]="book.endDate" (dateInput)="endDateChange($event)" [matDatepicker]="endDate"
-          placeholder="End date">
+        <input matInput [min]="book.startDate" [value]="book.endDate" (dateInput)="endDateChange($event)"
+          [matDatepicker]="endDate" placeholder="End date">
         <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
         <mat-datepicker #endDate></mat-datepicker>
       </mat-form-field>
 
     </div>
-    <div>
-      
-        <room-select (selectedChange)=roomSelect($event)></room-select>
-   
-        <input *ngIf="!asReception" matInput [value]="book.name" placeholder="First Name">
-        <input *ngIf="!asReception" matInput [value]="book.lastName" placeholder="Last Name">
+    <div mat-dialog-content>
+
+      <room-select [roomNumber]=book.room.roomNo (selectedChange)=roomSelect($event) *ngIf="asReception"></room-select>
+      <form *ngIf="!asReception" class="example-form">
+        <mat-form-field class="example-full-width">
+          <mat-label>Room number</mat-label>
+          <input disabled matInput [value]="book.room.roomNo">
+        </mat-form-field>
+      </form>
+      <form *ngIf="!asReception" class="example-form">
+        <mat-form-field class="example-full-width">
+          <mat-label>Name</mat-label>
+          <input disabled matInput [value]="book.user.firstName">
+        </mat-form-field>
+      </form>
+      <br>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Pers Number</mat-label>
         <input matInput [value]="book.persNumber" type='number' (input)=changePersNumber($event.target.value)>
-        <users-select (selectedChange)=userSelect($event) *ngIf="asReception"></users-select>
+      </mat-form-field>
+
+      <br>
+      <users-select [userId]="book.userID" (selectedChange)=userSelect($event) *ngIf="asReception"></users-select>
+      <br>
+      <mat-form-field *ngIf="book.id" appearance="fill">
+        <mat-label>Booking status:</mat-label>
+        <mat-select [(ngModel)]="book.bookingStatus">
+          <mat-option value="New">New</mat-option>
+          <mat-option value="Pending">Pending</mat-option>
+          <mat-option value="Canceled">Canceled</mat-option>
+          <mat-option value="Confirmed">Confirmed</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
     <div class="modal-footer" style="display:flex">
       <div style="flex: 1 1 auto"></div>
-        <button mat-raised-button color="warn" (click)="save()">Save</button>
+      <div mat-dialog-actions>
+        <button mat-button (click)="onNoClick()">Cancel</button>
+        <button mat-button [mat-dialog-close]="book" cdkFocusInitial>Save</button>
+      </div>
     </div>
   </div>
 </div>

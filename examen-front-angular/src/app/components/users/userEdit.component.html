@@ -1,8 +1,20 @@
-<h1 mat-dialog-title>Update user</h1>
+<h1 mat-dialog-title>UPDATE USER INFO</h1>
 <div mat-dialog-content>
     <mat-form-field>
         <mat-label>Username:</mat-label>
         <input matInput [(ngModel)]="data.username">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>First Name:</mat-label>
+        <input matInput [(ngModel)]="data.firstName">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Last Name:</mat-label>
+        <input matInput [(ngModel)]="data.lastName">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Email:</mat-label>
+        <input matInput [(ngModel)]="data.email">
     </mat-form-field>
     <mat-form-field appearance="fill">
         <mat-label>User Role:</mat-label>

@@ -11,7 +11,7 @@ export class RoomAdmService {
 
 
   getRooms(){
-      return this.http.get<RoomAdmDTO[]>(this.base + 'getRooms');
+      return this.http.get<RoomAdmDTO[]>(this.base + 'getRooms').toPromise();
   }
 
   upsertRoom(room:RoomAdmDTO) {

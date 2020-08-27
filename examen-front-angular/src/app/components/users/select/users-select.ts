@@ -11,6 +11,8 @@ export class UsersSelect implements OnInit {
     // userId: number;
     @Input()
     selected;
+    @Input() userId;
+
 
     @Output()
     selectedChange: EventEmitter<UserDTO> = new EventEmitter<UserDTO>();
@@ -27,9 +29,12 @@ export class UsersSelect implements OnInit {
             if (!this.selected) {
                 this.selected = this.items[0];
                 this.model = this.selected.id
-                this.selectedChange.emit(this.selected);
             }
-
+            if (this.userId) {
+                this.selected = this.items.find(x => x.id === this.userId);
+                this.model = this.selected.id
+            }
+            this.selectedChange.emit(this.selected);
         });
     }
 

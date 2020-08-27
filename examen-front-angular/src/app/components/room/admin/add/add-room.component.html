@@ -1,58 +1,44 @@
+<h2 mat-dialog-title>ADD / UPDATE ROOM</h2>
 
-<h2 mat-dialog-title>ADD NEW ROOM</h2>
+<div mat-dialog-content class="container">
+    <div>
+        <form class="example-form">
+            <mat-form-field class="example-full-width">
+                <mat-label>Description</mat-label>
+                <input matInput [value]='room.description' (input)=changeDescription($event.target.value)>
+            </mat-form-field>
+        </form>
+    </div>
+    <div>
+        <form class="example-form">
+            <mat-form-field class="example-full-width">
+                <mat-label>Price</mat-label>
+                <input matInput [value]='room.price' type="number" (input)=changePrice($event.target.value)>
+            </mat-form-field>
+        </form>
+    </div>
+    <div>
+        <form class="example-form">
+            <mat-form-field class="example-full-width">
+                <mat-label>Room number</mat-label>
+                <input matInput [value]='room.roomNo' type="text" (input)=changeRoomNo($event.target.value)>
+            </mat-form-field>
+        </form>
+        <input mat-imput type="text" placeholder="Room No" [(ngModel)]="room.roomNo" />
+    </div>
 
-<mat-dialog-content [formGroup]="form">
-  
-    <mat-form-field>
-        <input matInput type="text" [(ngModel)]="room.description"
-                placeholder="Room Description"
-               formControlName="description">
-    </mat-form-field>
-    
-    <mat-form-field>
-        <input matInput type="number" [(ngModel)]="room.price"
-                placeholder="Room Price"
-               formControlName="price">
-    </mat-form-field>
-    
-    <mat-form-field>
-        <input matInput type="text" [(ngModel)]="room.roomNo"
-                placeholder="Room Number"
-               formControlName="roomNumber">
-    </mat-form-field>
-    
-    <mat-checkbox [(ngModel)]="room.available"
-            formControlName="available">Available
-    </mat-checkbox>
+    <div>
+        <input type="checkbox" [(ngModel)]="room.available" /> Available
+    </div>
+    <div>
 
-    <mat-form-field>
         <room-type-select [(selected)]="room.type" (selectedChange)="onRoomTypeChange($event)"></room-type-select>
-    </mat-form-field>
- 
-</mat-dialog-content>
-
-<mat-dialog-actions>
-    <button class="mat-raised-button"(click)="close()">Close</button>
-    <button class="mat-raised-button mat-primary"(click)="save()">Save</button>
-</mat-dialog-actions>
-
-<!--
-<div>
-    <input type="text" [(ngModel)]="room.description" placeholder="Description"/>
-</div>
-<div>
-    <input type="number" [(ngModel)]="room.price" placeholder="Price" />
-</div>
-<div>
-    <input type="text" placeholder="Room No" [(ngModel)]="room.roomNo" />
-</div>
-<div>
-    <input type="checkbox" [(ngModel)]="room.available" /> Available
-</div>
-<div>
-    <room-type-select [(selected)]="room.type" (selectedChange)="onRoomTypeChange($event)"></room-type-select>
-</div>
-<div>
+    </div>
+    <!-- <div>
     <button (click)="save()">Save</button>
+</div> -->
 </div>
--->
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Close</button>
+    <button class="mat-raised-button mat-primary" (click)="save()">Save</button>
+</div>

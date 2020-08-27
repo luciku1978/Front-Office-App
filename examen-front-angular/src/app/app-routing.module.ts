@@ -12,8 +12,6 @@ import { UserPermAdmComponent } from './components/userPermAdm/userPermAdm.compo
 import { RoomAdmComponent } from './components/room/admin/roomAdm.component';
 import { BookingAdmComponent } from './components/booking/booking-adm.component';
 
-
-
 const routes: Routes = [
 
   {
@@ -29,7 +27,9 @@ const routes: Routes = [
       },
       {
         path: 'perm-adm',
-        component: UserPermAdmComponent
+        component: UserPermAdmComponent,
+        canActivate: [UsersGuard],
+
       },
       {
         path: 'booking-adm',
@@ -37,7 +37,9 @@ const routes: Routes = [
       },
       {
         path: 'room-adm',
-        component: RoomAdmComponent
+        component: RoomAdmComponent,
+        canActivate: [UsersGuard],
+
       },
       {
         path: 'room-type',
