@@ -135,7 +135,7 @@ export class RoomAdmComponent implements OnInit {
   upsert(room) {
     console.log(room)
     let dialogRef = this.dialog.open(AddRoomComponent, {
-      height: '400px',
+      height: '600px',
       width: '600px',
       data: {
        room

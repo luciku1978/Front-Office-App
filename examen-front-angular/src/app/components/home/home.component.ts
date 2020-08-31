@@ -8,7 +8,9 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  perm: any;
+  permcl: any;
+  permfo: any;
+  permadm: any;
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -16,7 +18,9 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.perm = this.authService.currentUserValue.userRole === 'Client' ? false : true
+    this.permcl = this.authService.currentUserValue.userRole === 'Client' ? false : true
+    this.permfo = this.authService.currentUserValue.userRole === 'FOStaff' ? false : true
+    this.permadm = this.authService.currentUserValue.userRole === 'Admin' ? false : true
   }
 
   home() {

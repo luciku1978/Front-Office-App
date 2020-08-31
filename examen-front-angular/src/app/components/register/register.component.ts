@@ -72,7 +72,7 @@ export class RegisterComponent implements OnInit {
     this.authService.register(user)
       .subscribe(
         u => {
-          this.toastr.success('Account created successfully!', '', {
+          this.toastr.success('Account successfully created for Username ' + user.Username + " !", '', {
             positionClass: 'toast-bottom-right',
           });
         },
@@ -80,7 +80,7 @@ export class RegisterComponent implements OnInit {
 
           this.errors = [error];
           this.loading = false;
-          this.toastr.error('Account can not be created - username already exists!', '', {
+          this.toastr.error('Account can not be created - username already exists! Please choose another username!', '', {
             positionClass: 'toast-bottom-right',
           });
         });

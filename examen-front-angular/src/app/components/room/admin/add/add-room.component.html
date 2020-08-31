@@ -1,4 +1,5 @@
-<h2 mat-dialog-title>ADD / UPDATE ROOM</h2>
+<h1 mat-dialog-title *ngIf="room.id">UPDATE ROOM NO: {{room.roomNo}}</h1>
+<h1 mat-dialog-title *ngIf="!room.id">ADD NEW INVENTORY ROOM</h1>
 
 <div mat-dialog-content class="container">
     <div>
@@ -24,16 +25,17 @@
                 <input matInput [value]='room.roomNo' type="text" (input)=changeRoomNo($event.target.value)>
             </mat-form-field>
         </form>
-        <input mat-imput type="text" placeholder="Room No" [(ngModel)]="room.roomNo" />
+        <!-- <input mat-imput type="text" placeholder="Room No" [(ngModel)]="room.roomNo" /> -->
     </div>
 
     <div>
         <input type="checkbox" [(ngModel)]="room.available" /> Available
     </div>
-    <div>
 
+    <div>
         <room-type-select [(selected)]="room.type" (selectedChange)="onRoomTypeChange($event)"></room-type-select>
     </div>
+
     <!-- <div>
     <button (click)="save()">Save</button>
 </div> -->

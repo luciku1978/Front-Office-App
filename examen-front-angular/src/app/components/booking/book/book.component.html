@@ -1,8 +1,7 @@
-<h2 mat-dialog-title *ngIf="book.id">UPDATE BOOKING NO: {{book.id}}</h2>
-<h2 mat-dialog-title *ngIf="!book.id">ADD BOOKING</h2>
+<h1 mat-dialog-title *ngIf="book.id">UPDATE RESERVATION NO: {{book.id}}</h1>
+<h1 mat-dialog-title *ngIf="!book.id">ADD NEW RESERVATION</h1>
 
 <div *ngIf="room">
-  <!--<div>Create booking for: "getRoomName()"</div>-->
   <div>
     <div style="display:flex;flex-wrap:wrap">
       <mat-form-field>
@@ -22,14 +21,14 @@
     <div mat-dialog-content>
 
       <room-select [roomNumber]=book.room.roomNo (selectedChange)=roomSelect($event) *ngIf="asReception"></room-select>
-      <form *ngIf="!asReception" class="example-form">
-        <mat-form-field class="example-full-width">
+      <form *ngIf="!asReception">
+        <mat-form-field>
           <mat-label>Room number</mat-label>
           <input disabled matInput [value]="book.room.roomNo">
         </mat-form-field>
       </form>
-      <form *ngIf="!asReception" class="example-form">
-        <mat-form-field class="example-full-width">
+      <form *ngIf="!asReception">
+        <mat-form-field>
           <mat-label>Name</mat-label>
           <input disabled matInput [value]="book.user.firstName">
         </mat-form-field>
@@ -58,7 +57,7 @@
       <div style="flex: 1 1 auto"></div>
       <div mat-dialog-actions>
         <button mat-button (click)="onNoClick()">Cancel</button>
-        <button mat-button [mat-dialog-close]="book" cdkFocusInitial>Save</button>
+        <button mat-button mat-raised-button color="primary"[mat-dialog-close]="book" cdkFocusInitial>Save</button>
       </div>
     </div>
   </div>

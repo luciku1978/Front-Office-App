@@ -44,7 +44,9 @@ namespace examen_web_application.Services.RoomsService
                         ID = x.Id,
                         Description = x.Description,
                         RoomNo = x.RoomNo,
+                        Available = x.Available,
                         Price = x.Price,
+                        
                         Type = new RoomTypeDTO()
                         {
                             ID = rt.ID,

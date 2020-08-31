@@ -7,5 +7,6 @@
         public RoomTypeDTO Type { get; set; }
         public double Price { get; set; }
         public string RoomNo { get; set; }
+        public bool Available { get; set; }
     }
 }

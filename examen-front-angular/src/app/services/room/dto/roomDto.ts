@@ -5,5 +5,6 @@ export class RoomDto {
   name: string;
   places: number;
   type: RoomTypeDTO;
+  available: boolean
 }
 

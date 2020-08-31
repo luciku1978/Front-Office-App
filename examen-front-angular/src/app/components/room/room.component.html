@@ -10,9 +10,15 @@
       <div>
         Type: {{room.type.name}}
       </div>
+      <div>
+        Description: {{room.description}}
+      </div>
+      <div *ngIf="!room.available">
+          This room is {{room.available ? 'Available':'Not available'}}!
+      </div>
       <div style="display:flex">
         <div style="flex:1 1 auto"></div>
-        <button (click)="reserve(room)">Book now!</button>
+        <button *ngIf="room.available" (click)="reserve(room)">Book now!</button>
       </div>
     </mat-card>
   </div>

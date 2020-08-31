@@ -9,25 +9,25 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button *ngIf='perm' autotest-id="userManagement" mat-menu-item
+          <button *ngIf='permcl && permfo' autotest-id="userManagement" mat-menu-item
             (click)="userManagement()">
             <mat-icon>people</mat-icon>
             <span>Users</span>
           </button>
-          <button *ngIf='perm' autotest-id="userManagement" mat-menu-item
+          <button *ngIf='permcl' autotest-id="userManagement" mat-menu-item
             (click)="gotoBookingAdm()">
             <mat-icon>people</mat-icon>
             <span>Bookings</span>
           </button>
-          <button *ngIf='perm' autotest-id="userAdm" mat-menu-item (click)="goToUserPerm()">
+          <button *ngIf='permcl && permfo' autotest-id="userAdm" mat-menu-item (click)="goToUserPerm()">
             <mat-icon>people</mat-icon>
             <span>Permissions</span>
           </button>
-          <button *ngIf='!perm' autotest-id="room" mat-menu-item (click)="gotoRoom()">
+          <button *ngIf='!permcl || !permadm' autotest-id="room" mat-menu-item (click)="gotoRoom()">
             <mat-icon>Rooms</mat-icon>
             <span>Rooms</span>
           </button>
-          <button *ngIf='perm' autotest-id="room" mat-menu-item (click)="gotoRoomAdm()">
+          <button *ngIf='permcl' autotest-id="room" mat-menu-item (click)="gotoRoomAdm()">
             <mat-icon>Rooms</mat-icon>
             <span>Rooms Adm</span>
           </button>

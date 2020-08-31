@@ -70,8 +70,12 @@ export class RoomComponent implements OnInit {
       if (result) {
         this.bookingService.saveBookingAdm(result).then(() => {
           console.log('finished')
-          this.toastr.success(`Room ${result.room.roomNo} has been reserved!`, '', {
-            positionClass: 'toast-up-right',
+          this.toastr.success(`Dear `+ result.user.firstName +` `+ result.user.lastName + `, room number ${result.room.roomNo} has been reserved!`, '', {
+            positionClass: 'toast-top-center', timeOut : 0,
+            extendedTimeOut : 5000,
+            tapToDismiss : true,
+            //  debug : false,
+             //fadeOut: 10,
           });
         })
         console.log(result)

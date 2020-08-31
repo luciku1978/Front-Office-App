@@ -6,12 +6,15 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { findIndex } from 'rxjs/operators';
+import { AuthService } from 'src/app/services/auth.service';
 
 export interface DialogData {
   username: string;
 
   userRole: string;
   email: string;
+
+  
 }
 
 @Component({
@@ -27,19 +30,29 @@ export class UsersComponent implements OnInit {
   lastName: string;
   public users: any = null;
   public changes: any = null;
+  blockFO: any;
+  
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   public displayedColumns: string[] = ['username', 'email', 'userRole', 'options'];
 
 
-  constructor(public dialog: MatDialog, private userService: UserService, private route: Router) {
+  constructor(public dialog: MatDialog, private userService: UserService, private route: Router,public authService: AuthService,) {
     this.getAllUsers();
   }
 
   openDialog(username, firstName, lastName, email, userRole, id): void {
+    
+    
     const dialogRef = this.dialog.open(UserEditDialog, {
       width: '300px',
       data: { username, firstName, lastName, email, userRole, id }
+
     });
+    
+    
+    this.blockFO = this.authService.currentUserValue.userRole === 'FOStaff' ? false : true
+
+    
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed', result);
@@ -63,7 +76,7 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
-
+   
   }
 
   getAllUsers() {
@@ -84,15 +97,22 @@ export class UsersComponent implements OnInit {
   selector: 'userEdit.component',
   templateUrl: './userEdit.component.html',
 })
-export class UserEditDialog {
+export class UserEditDialog  {
+  blockFO: any;
+
 
   constructor(
     public dialogRef: MatDialogRef<UserEditDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+    private authService: AuthService,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) { 
+
+     
+    }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
+  
 }
 

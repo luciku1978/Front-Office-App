@@ -189,7 +189,7 @@ export class BookingAdmComponent implements OnInit {
         this.bookingService.saveBookingAdm(result).then(() => {
           this.updateBookingState()
           this.toastr.success(`Room ${result.room.roomNo} has been reserved!`, '', {
-            positionClass: 'toast-bottom-right',
+            positionClass: 'toast-top-right',
           });
         })
       }
