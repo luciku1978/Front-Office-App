@@ -16,16 +16,15 @@
         <mat-label>Email:</mat-label>
         <input matInput [(ngModel)]="data.email">
     </mat-form-field>
-    <form >
-        <mat-form-field appearance="fill">
-            <mat-label>User Role:</mat-label>
-            <mat-select [(ngModel)]="data.userRole">
-                <mat-option value="Admin">Admin</mat-option>
-                <mat-option value="Client">Client</mat-option>
-                <mat-option value="FOStaff">FOStaff</mat-option>
-            </mat-select>
-        </mat-form-field>
-    </form>
+    <mat-form-field appearance="fill">
+        <mat-label>User Role:</mat-label>
+        <mat-select [(ngModel)]="data.userRole">
+            <mat-option value="Admin">Admin</mat-option>
+            <mat-option value="Client">Client</mat-option>
+            <mat-option value="FOStaff">FOStaff</mat-option>
+        </mat-select>
+    </mat-form-field>
+
 </div>
 <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">Cancel</button>

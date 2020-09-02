@@ -52,8 +52,8 @@ export class AddRoomComponent implements OnInit {
     this.room.type = ev as RoomTypeDTO;
   }
 
-  close() {
-
-  }
+  // onNoClick(): void {
+  //   this.room.closed()
+  // }
 
 }

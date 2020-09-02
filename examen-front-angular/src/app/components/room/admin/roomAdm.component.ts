@@ -146,8 +146,10 @@ export class RoomAdmComponent implements OnInit {
       this.getRoomsAsList();
     });
 
+    
 
   }
 
+  
 
 }

@@ -24,7 +24,7 @@ import { BookingAdmComponent } from './components/booking/booking-adm.component'
 import { UsersSelect } from './components/users/select/users-select';
 import { RoomSelect } from './components/room/select/room-select';
 import { JwPaginationComponent } from 'jw-angular-pagination';
-
+import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule} from '@angular/material-moment-adapter';
 
 
 @NgModule({
@@ -54,6 +54,7 @@ import { JwPaginationComponent } from 'jw-angular-pagination';
   ],
   imports: [
     MatDatepickerModule,
+    MatMomentDateModule,
     BrowserModule,
     MatTableModule,
     MatSortModule,
@@ -69,7 +70,9 @@ import { JwPaginationComponent } from 'jw-angular-pagination';
     
 
   ],
-  providers: [ { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },],
+  providers: [ { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+  { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true }}
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

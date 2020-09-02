@@ -6,6 +6,8 @@ import { BookComponent } from './book/book.component';
 import * as moment from 'moment';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { ToastrService } from 'ngx-toastr';
+import { catchError } from 'rxjs/operators';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @Component({
   selector: 'app-booking-adm',
@@ -15,10 +17,13 @@ import { ToastrService } from 'ngx-toastr';
 export class BookingAdmComponent implements OnInit {
   user: any;
   dataSource: any;
+  errors: string[] = [];
+  loading = false;
+
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  public displayedColumns: string[] = ['id', 'room.roomNo', 'user.firstName', 'user.lastName', 'startDate', 'endDate', 'persNumber', 'bookingStatus', 'Options'];
+  public displayedColumns: string[] = ['id', 'room.roomNo', 'user.firstName', 'user.lastName', 'showStartDate', 'showEndDate', 'persNumber', 'bookingStatus', 'Options'];
   constructor(
     private bookingService: BookingService,
     private dialog: MatDialog,
@@ -114,10 +119,12 @@ export class BookingAdmComponent implements OnInit {
         const theList = rsp.map((r) => (
           {
             bookingStatus: r.bookingStatus,
-            showEndDate: moment(r.endDate).format('DD/MM/YYYY'),
-            showStartDate: moment(r.startDate).format('DD/MM/YYYY'),
             endDate: r.endDate,
             startDate: r.startDate,
+
+            showEndDate: moment(r.endDate).format('DD/MM/YYYY'),
+            showStartDate: moment(r.startDate).format('DD/MM/YYYY'),
+
             id: r.id,
             persNumber: r.persNumber,
             room: r.room,
@@ -153,7 +160,7 @@ export class BookingAdmComponent implements OnInit {
             positionClass: 'toast-bottom-right',
           })
           this.updateBookingState()
-          ;
+            ;
         })
       }
 
@@ -169,13 +176,13 @@ export class BookingAdmComponent implements OnInit {
         room: {
           data: {
             bookingStatus: "New",
-            endDate: new Date(),
             persNumber: 1,
             room: { id: 1, roomNo: "" },
             roomID: 1,
             showEndDate: moment().format('DD/MM/YYYY'),
             showStartDate: moment().format('DD/MM/YYYY'),
             startDate: new Date(),
+            endDate: new Date(),
             user: { id: 1, firstName: "Maniu", lastName: "Lucian" },
             userID: 1
           }
@@ -187,15 +194,33 @@ export class BookingAdmComponent implements OnInit {
       console.log('The dialog was closed', result);
       if (result) {
         this.bookingService.saveBookingAdm(result).then(() => {
+
+
           this.updateBookingState()
           this.toastr.success(`Room ${result.room.roomNo} has been reserved!`, '', {
             positionClass: 'toast-top-right',
           });
-        })
-      }
+        }
 
+
+        )
+      }
+      else {
+        error => {
+
+          this.errors = [error];
+          this.loading = false;
+          this.toastr.error('Booking can not be created!Please choose another room or period!', '', {
+            positionClass: 'toast-center-right',
+          });
+        }
+      }
       return
 
-    });
+    }
+
+    );
+
+
   }
 }

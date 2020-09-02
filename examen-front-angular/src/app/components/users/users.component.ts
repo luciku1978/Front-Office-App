@@ -30,7 +30,7 @@ export class UsersComponent implements OnInit {
   lastName: string;
   public users: any = null;
   public changes: any = null;
-  blockFO: any;
+  // blockFO: any;
   
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   public displayedColumns: string[] = ['username', 'email', 'userRole', 'options'];
@@ -50,7 +50,7 @@ export class UsersComponent implements OnInit {
     });
     
     
-    this.blockFO = this.authService.currentUserValue.userRole === 'FOStaff' ? false : true
+    // this.blockFO = this.authService.currentUserValue.userRole === 'FOStaff' ? false : true
 
     
 
@@ -98,7 +98,7 @@ export class UsersComponent implements OnInit {
   templateUrl: './userEdit.component.html',
 })
 export class UserEditDialog  {
-  blockFO: any;
+  // blockFO: any;
 
 
   constructor(

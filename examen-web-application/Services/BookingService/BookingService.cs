@@ -13,7 +13,9 @@ namespace examen_web_application.Services.BookingService
     {
         List<BookingDTO> GetBookingsAdm(int loggedUserID);
         void UpsertBooking(Booking dto, int loggedUserID);
+        //Models.Booking UpsertBooking(Booking dto, int loggedUserID);
         void UpsertBookingReception(Booking bookingDTO, int loggedUserID);
+        //Models.Booking UpsertBookingReception(Booking bookingDTO, int loggedUserID);
     }
     public class BookingService: IBookingService
     {
@@ -63,7 +65,7 @@ namespace examen_web_application.Services.BookingService
                         ).FirstOrDefault(),
             UserID = x.UserID,
             RoomID = x.RoomID,
-                StartDate = x.StartDate,
+            StartDate = x.StartDate,
             EndDate = x.EndDate,
            BookingStatus = x.BookingStatus.ToString(),
            PersNumber = x.PersNumber,
@@ -80,13 +82,15 @@ namespace examen_web_application.Services.BookingService
             }
 
             dto.UserID = loggedUserID;
+            //return 
             _UpsertBooking(dto, loggedUserID);
         }
 
         public void UpsertBookingReception(Booking bookingDTO, int loggedUserID)
         {
            
-            _UpsertBooking(bookingDTO, loggedUserID);
+           //return 
+           _UpsertBooking(bookingDTO, loggedUserID);
         }
 
         private void _UpsertBooking(Booking booking, int loggedUserID)
@@ -97,18 +101,31 @@ namespace examen_web_application.Services.BookingService
             var userId = DbContext.Users.FirstOrDefault(x => x.Id == booking.UserID).Id;
 
             var currDate = DateTime.Now;
-          
+
+
+            //overbooking logic
+      
+            var overbooking = DbContext.Booking.FirstOrDefault(x =>x.Id != booking.Id && x.RoomID == booking.RoomID && !(x.StartDate >= booking.EndDate || x.EndDate <= booking.StartDate) && x.BookingStatus != BookingStatusEnum.Canceled);
+            if (overbooking != null)
+            {
+                throw new Exception("Overbooking error");
+                //return null;
+                
+            }
+            // overbooking logic end
             if (dbBooking == null)
             {
                 dbBooking = new Booking();
                 dbBooking.AddedOn = currDate;
                 dbBooking.UserID = userId;
                 dbBooking.RoomID = roomId;
-                dbBooking.StartDate = booking.StartDate;
-                dbBooking.EndDate = booking.EndDate;
+                dbBooking.StartDate = booking.StartDate.AddHours(3);
+                dbBooking.EndDate = booking.EndDate.AddHours(3);
                 dbBooking.BookingStatus = BookingStatusEnum.New;
                 dbBooking.PersNumber = booking.PersNumber;
                 dbBooking.UpdatedOn = currDate;
+
+                
 
                 DbContext.Booking.Add(dbBooking);
 
@@ -117,8 +134,8 @@ namespace examen_web_application.Services.BookingService
             {
                 dbBooking.UserID = userId;
                 dbBooking.RoomID = roomId;
-                dbBooking.StartDate = booking.StartDate;
-                dbBooking.EndDate = booking.EndDate;
+                dbBooking.StartDate = booking.StartDate.AddHours(3);
+                dbBooking.EndDate = booking.EndDate.AddHours(3);
                 dbBooking.BookingStatus = booking.BookingStatus;
                 dbBooking.PersNumber = booking.PersNumber;
                 dbBooking.UpdatedOn = currDate;
@@ -129,6 +146,7 @@ namespace examen_web_application.Services.BookingService
           
             Console.WriteLine(dbBooking);
             DbContext.SaveChanges();
+            //return dbBooking;
         }
     }
 }
